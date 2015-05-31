@@ -4,7 +4,7 @@ Simple application to load JSON using a server-side proxy. Either load JSON thro
 
 ## Installation:
 
-    sudo apt-get install pip virtualenv git
+    sudo apt-get install python-pip python-virtualenv git
     git clone https://github.com/markmuetz/flask-json-proxy
     cd flask-local-proxy
     virtualenv .env

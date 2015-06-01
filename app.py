@@ -20,6 +20,12 @@ def load():
     return render_template('load.html', content=_download(url))
 
 
+@app.route('/<path:path_name>')
+def get_html(path_name):
+    with open(path_name, 'r') as html_file:
+        return html_file.read()
+
+
 @app.route('/_api/load_json')
 def _api():
     url = request.args.get('url')

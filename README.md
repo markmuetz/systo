@@ -12,6 +12,13 @@ Simple application to load JSON using a server-side proxy. Either load JSON thro
     pip install -r requirements.txt
     python app.py
 
+## Updating and Running
+
+    cd flask-json-proxy
+    git pull
+    source .env/bin/activate
+    python app.py
+
 Then navigate to [127.0.0.1:5000](http://127.0.0.1:5000).
 
 ## Dependencies:

@@ -1,0 +1,193 @@
+<html>
+<head>
+    <title>Systo web developer's tutorial</title>
+    <style>
+body {
+    font-family: helvetica, arial, sans-serif;
+    }
+
+pre  {
+    font-weight:normal;
+    padding:10px;
+    border: 1px solid black;
+    background-color:#ffffe0;
+    }
+
+code {
+    color:#808080;
+    }
+    </style>
+</head>
+
+<body>
+<h1>Systo web developer's tutorial</h1>
+
+<p>This tutorial is for anyone who wants <b>to make a Systo-based web page</b> for allowing visitors to view/edit/run System Dynamics models.</p>
+
+<p>This tutorial is <u>not</u> intended for you if:
+    <ul>
+        <li>you just want to see what it's like to work with models in Systo-based web pages.  For that, it's best to visit <a href="http://www.systo.org">Systo</a>, and follow the link to <b>Demos</b>.</i>
+        <li>you want to build and run a System Dynamics model, like you may have done in software such as <a href="http://www.simulistics.com">Simile</a>, <a href="http://www.iseesystems.com/softwares/Education/StellaSoftware.aspx">Stella</a>, <a href="http://vensim.com/">Vensim</a> or <a href="https://insightmaker.com/">Insight Maker</a>.  For that, you can try <a href="http://www.systo.org/systolite/systolite.html">SystoLite</a>, which is a lightweight modelling environment made with Systo widgets.</li>
+        <li>you have JavaScript programming skills and would like to adapt an existing Systo widget, or make a new one.  For that... please wait until a tutorial has been prepared for you.</li>
+    </ul>
+</p>
+
+<p>It will help you to follow what's going on if you have already used HTML and a bit of JavaScript.    However, you should be able to work through the tutorial steps even if you haven't - all you need is a text editor, and a web browser to try out the page at various stages of development.</p>
+
+<h2>Outline</h2>
+<p>The tutorial will take you through the following steps:
+    <ol>
+        <li>Making a starter web page;</li>
+        <li>Adding in links to libraries etc;</li>
+        <li>Loading a model, and adding a widget for displaying the model diagram;</li>
+        <li>Adding a widget for plotting simulation results;</li>
+        <li>Adding a widget to provide sliders for varying model inputs.</li>
+    </ol>
+</p>
+
+<h2>Steps</h2>
+<h3>1. Making a starter web page</h3>
+<p>We will begin by making a totally conventional web page.    Remember, Systo components are just additions to a normal page, so you can do all the normal HTML stuff - layout, tables, images etc.</p>
+<p>1.1 Open up an empty document in your text editor, then type in (or, simpler, paste in) the text below.</p>
+
+<pre><code>
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My first Systo web page&lt;/title&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;h1&gt;My first Systo web page&lt;/h1&gt;
+        &lt;p&gt;Here goes some text about the model...&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>1.2 Save the file, giving it some suitable name ending in .html e.g. systo1.html </p>
+<p>1.3 Open the file in a browser (not Internet Explorer).    There are various ways of doing this, depending on your operating system (Windows, Mac or Linux) and browser.   Firefox has a File menu, and you can browse to the file.   Or you can try right-clicking on the file in its directory, selecting an Open option, the choose a browser.   Or you can type file://..../systo1.html into your browser's address bar, where ... denotes the path to your file.</p>
+<p>You should see a page looking like <a target="_blank" href="systo_web_page_tutorial1a.html">this</a>.  If you don't, check the HTML carefully, and fix any mistake.</p>
+
+<h3>2. Adding in links to libraries etc</h3>
+<p>2.1 Using copy-and-paste from the text below, add the following lines into your HTML file.   Insert them in the &lt;head&gt; section, just before the closing tag.</p>
+
+<pre><code>
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My first Systo web page&lt;/title&gt;
+<span class="bold">
+        &lt;!-- CSS --&gt;
+        &lt;link type="text/css" rel="stylesheet" href="jquery-ui.css"/&gt;
+        &lt;link type="text/css" rel="stylesheet" href="jquery-ui-1.9.2.custom.css"/&gt;
+
+        &lt;!-- Systo core - defines the SYSTO global variable and some core functions --&gt;
+        &lt;script type="text/javascript" src="systo.js"&gt;&lt;/script&gt;
+
+        &lt;!-- Core libraries --&gt;
+        &lt;script type="text/javascript" src="jquery-1.10.2.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="jquery-ui-1.10.3.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="jquery.layout-latest.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="jquery.ui.widget.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="plugins/codeGenerator/euler1.js"&gt;&lt;/script&gt;</span>
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;h1&gt;My first Systo web page&lt;/h1&gt;
+        &lt;p&gt;Here goes some text about the model...&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>2.2 Save the file again, and re-open in the browser (by clicking on your browser's Refresh button).</p>
+
+<p>You page should look like <a target="_blank" href="systo_web_page_tutorial1b.html">this</a>.  You shouldn't see any difference.   
+
+
+<h3>3. Loading a model, and adding a widget for displaying the model diagram</h3>
+<p>Now, we will add a model to the page.   This requires that we also load the language-definition file for the diagrammatic language the model is expressed in - in this case, System Dynamics.   Also, there is not much point in loading a model without being able to see it, so we will also add the diagram widget, and a container element for this widget.</p>
+
+<p>3.1 Add the following lines just after the ones added above (i.e. just before the closing &lt;/head&gt; tag.</p>
+
+<pre><code>
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My first Systo web page&lt;/title&gt;
+
+        &lt;!-- CSS --&gt;
+        &lt;link type="text/css" rel="stylesheet" href="jquery-ui.css"/&gt;
+        &lt;link type="text/css" rel="stylesheet" href="jquery-ui-1.9.2.custom.css"/&gt;
+
+        &lt;!-- Systo core - defines the SYSTO global variable and some core functions --&gt;
+        &lt;script type="text/javascript" src="systo.js"&gt;&lt;/script&gt;
+
+        &lt;!-- Core libraries --&gt;
+        &lt;script type="text/javascript" src="jquery-1.10.2.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="jquery-ui-1.10.3.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="jquery.layout-latest.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="jquery.ui.widget.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="plugins/codeGenerator/euler1.js"&gt;&lt;/script&gt;
+
+        <span class="bold">&lt;!-- Model language definition(s), held as a JavaScript object literal --&gt;
+        &lt;script type="text/javascript" src="languages/system_dynamics.js"&gt;&lt;/script&gt;
+
+        &lt;!-- Model(s), held as a JavaScript object literal --&gt;
+        &lt;script type="text/javascript" src="models/predator_prey_shodor.js"&gt;&lt;/script&gt;
+
+        &lt;!-- The widgets used in this page --&gt;
+	    &lt;script type="text/javascript" src="systo_widgets/jquery.diagram.js"&gt;&lt;/script&gt;</span>
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;h1&gt;My first Systo web page&lt;/h1&gt;
+        &lt;p&gt;Here goes some text about the model...&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>3.2 Add a container element for the diagram widget, by inserting the following line in the &lt;body&gt; element in your file.   You can put it anywhere you want, but in this case it makes sense to have it after the text at the start of the page.</p>
+
+<pre><code>
+&lt;html&gt;
+    &lt;head&gt;
+    . . . . . . . .
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;My first Systo web page&lt;/h1&gt;
+        &lt;p&gt;Here goes some text about the model...&lt;/p&gt;
+        <span class="bold">&lt;div id="diagram1" style="float:left; border:1px solid gray; margin:1px; width:420px; height:330px;"&gt;&lt;/div&gt;</span>
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>It's actually a good idea to have a look at your page now.    You will <u>not</u> see the model diagram yet, because we have not yet associated this &lt;div&gt; element with the diagram widget, but you should see the space reserved in the page for the diagram.</p>
+
+<p>3.3 Associate the diagram's &lt;div&gt; with the diagram widget.  Do this by adding the following lines at the end of the &lt;head&gt; element:
+
+<pre><code>
+&lt;html&gt;
+    &lt;head&gt;
+    . . . . . . . .
+    <span class="bold">&lt;!-- This page's custom script --&gt;
+    &lt;script&gt;
+        $(document).ready(function() {
+
+            $('#diagram1').diagram({
+                modelId:'predator_prey_shodor'
+            }).
+            resizable();
+         });
+    &lt;/script&gt;</span>
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;My first Systo web page&lt;/h1&gt;
+        &lt;p&gt;Here goes some text about the model...&lt;/p&gt;
+        &lt;div id="diagram1" style="float:left; border:1px solid gray; margin:1px; width:420px; height:330px;"&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h3>4. Adding a widget for plotting simulation results</h3>
+...TODO
+
+<h3>5. Adding a widget to provide sliders for varying model inputs.</h3>
+...TODO
+

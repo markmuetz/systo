@@ -1,0 +1,152 @@
+<html>
+<head>
+    <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="jquery-ui-1.9.2.custom.css"/>
+
+    <!-- Systo core - defines the SYSTO global variable and some core functions -->
+    <script type="text/javascript" src="systo.js"></script>
+
+    <!-- Core libraries -->
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.8.23.custom.min.js"></script>
+    <script type="text/javascript" src="generate_simulation_code.js"></script>
+    <script type="text/javascript" src="action.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.ui.widget.js"></script>
+
+    <!-- Model language definition(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="languages/system_dynamics.js"></script>
+
+    <!-- Model(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="models/predator_prey_shodor.js"></script>
+
+    <!-- The widgets used in this page -->
+	<script type="text/javascript" src="systo_widgets/jquery.slider1.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.multiple_sliders1.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.diagram.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.plotter.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.inline_value.js"></script>
+
+    <!-- This page's custom script -->
+    <script>
+
+        $(document).ready(function() {
+
+            generateSimulationFunction(SYSTO.models['predator_prey_shodor']);
+
+            $('#plotter1').plotter({
+                model:'predator_prey_shodor',
+                colours:['red', 'blue'],
+                canvasWidth:400, 
+                canvasHeight:250,
+                selectNode:function (node) {
+                    var nodesToPlot = {Prey_population:true, Predator_population:true};
+                    if (nodesToPlot[node.label]) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            // TODO: Find out why zoom buttons appear only in correct position when ".resizable()" is added.  
+            // When it's not added, the buttons are at the top-left of the window!  Seems very odd.
+            $('#diagram1').diagram({
+                model:'predator_prey_shodor', 
+                canvasWidth:420, 
+                canvasHeight:330, 
+                scale:1, 
+                offsetx:-80, 
+                offsety:0,
+                selectNode:function (node) {
+                    if (node.type !== 'variable') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                selectArc:function (arc) {
+                    if (arc.type === 'flow') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }).
+            resizable();
+
+            $('#sliders_initialstock').multiplesliders1({
+                model:'predator_prey_shodor',
+                selectNode:function (node) {
+                    if (node.type === 'stock') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            $('#sliders_parameter').multiplesliders1({
+                model:'predator_prey_shodor',
+                selectNode:function (node) {
+                    if (node.type === 'variable') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            $('#inline_value1').inlineValue({model:'predator_prey_shodor', nodeId:'stock1', statistic:'max'});
+            $('#inline_value2').inlineValue({model:'predator_prey_shodor', nodeId:'stock2', statistic:'max'});
+            $('#inline_value3').inlineValue({model:'predator_prey_shodor', nodeId:'stock2', statistic:'period'});
+
+         });
+    </script>
+</head>
+
+<body style="font-family:arial,sans-serif;">
+    <h1>Welcome to Systo...</h3>
+    <p>... an open, adaptable and lightweight approach for viewing, building and running system models in web pages.</p>
+    <p>Systo is based on a collection of widgets, each of which does a specific job: for example, display a model diagram, or display the results of simulating the behaviour of a model.   These widgets can be made by anyone, and can live anywhere on the internet.    Web page developers can then choose any combination of these, and incorporate them into their own web page.</p>
+    <p>The basic idea is that:
+    <ul>
+    <li>Systo models can be built and live anywhere on the internet;</li>
+    <li>Systo widgets can be built and live anywhere on the internet;</li>
+    <li>Any web page developer can, using little more than conventional HTML, build a web page which uses one or more widgets to give users access to one or more models.</li>
+    </ul>
+    Some of these web pages might be restricted to a single model using a small number of widgets.    Others may be very broad, giving users access to many models (perhaps stored on a web database), along with a range of widgets for working with these models.</p>
+
+    <h3>A "Hello, world" example</h3><p>This is the classic predator-prey model, conventionally expressed in terms of "rabbits and foxes".</p>
+<div style="float:left; width:420px;">
+<p>You can interact with the model diagram in various ways:
+<ul>
+<li>You can zoom in, zoom out and zoom-to-fit using the buttons on the left of the diagram.</li>
+<li>You can resize the box the diagram is in, by dragging on the right or bottom edges.</li>
+<li>You can drag the diagram around, useful if you have a large diagram.</li>
+<li>You can show more detail (parameters and influence arrows): just click on the 'Show all' button.</li>
+<li>You can even re-arrange the nodes in the diagram (stocks, clouds and variables), by dragging them around!</li>
+</ul>
+</p>
+</div>
+    <button onclick="$('#diagram1').diagram('option', 'selectNode', function(node) {return true;}).diagram('option', 'selectArc', function(arc) {return true;});">Show all</button>
+    <div id="diagram1" style="float:left; border:1px solid gray; margin:1px; width:420px; height:330px;"></div>
+<div style="clear:left;">
+<p>You can also explore the dynamic behaviour of the model.   Move the sliders for the initial population size of the rabbits and foxes, or the various parameters, and observe:
+<ul>
+<li>how the graphs showing the rabbit and the fox population size; and</li>
+<li>how some statistics derived from the model results (the maximum for the two populations, and the cycle period) 
+</ul>
+automatically update as you move the sliders.  The computer is continuously re-running the model as you do this.</p>
+</div>
+    <div id="sliders_initialstock" style="float:left; padding:7px; margin:1px; width:420px;"></div>
+    <div id="sliders_parameter" style="float:left; padding:7px; margin:1px; width:420px;"></div>
+    <div style="float:left; width:400px;">
+        <p>The maximum value for the number of foxes is <span id="inline_value1"></span> and for the number of rabbits is <span id="inline_value2"></span>.   The cycle period is <span id="inline_value3"></span> years.</p>
+    </div>
+    <div id='plotter1' style="float:left; margin:1px; width:400px; height:300px;"></div>
+</body>
+</html>
+
+

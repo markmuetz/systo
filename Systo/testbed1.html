@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+	<title>Systo</title>
+
+    <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="jquery-ui-1.9.2.custom.css"/>
+    <style>
+    div {float:left;}
+    </style>
+
+    <!-- jqvmap -->
+	<link rel="stylesheet" href="jqvmap.css" />
+
+    <!-- Systo core - defines the SYSTO global variable and some core functions -->
+    <script type="text/javascript" src="systo.js"></script>
+
+    <!-- Core libraries -->
+    <script type="text/javascript" src="jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="jquery.layout-latest.js"></script>
+    <script type="text/javascript" src="jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="formatting.js"></script>
+    <script type="text/javascript" src="Blob.js"></script>
+    <script type="text/javascript" src="FileSaver.js"></script>
+
+    <!-- jqvmap -->
+	<script src="jqvmap.js"></script>
+	<script type="text/javascript" src="data/world.js"></script>
+
+    <!-- Supplementary Systo code -->
+    <script type="text/javascript" src="simulation.js"></script>
+    <script type="text/javascript" src="action.js"></script>
+    <script type="text/javascript" src="equation.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript" src="plugins/codeGenerator/euler1.js"></script>
+
+    <!-- Model language definition(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="languages/system_dynamics.js"></script>
+
+    <!-- Model(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="models/cascade.js"></script>
+
+    <!-- The widgets used in this page -->
+	<script type="text/javascript" src="systo_widgets/jquery.leaflet_polygon.js"></script>
+
+
+    <!-- This page's custom script -->
+    <script>
+        $(document).ready(function() {
+            //SYSTO.switchToModel('cascade');
+            $('#leaflet_polygon').leaflet_polygon().resizable();
+        });          
+    </script>
+</head>
+
+<body>
+    <h1>Example 1</h1>
+    <p>Here is some text.  This is just a regular HTML page, so you can do all the normal things, 
+    like using <b>bold</b> and <i>italics</i></p>
+
+    <div id="leaflet_polygon"></div>
+
+</body>
+</html>
+

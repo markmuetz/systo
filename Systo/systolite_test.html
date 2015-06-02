@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Layout:
++-----------------------+--------------------------+-------------------------+
+|                         outer.north                                        |
+|                         Header                                             |
++-----------------------+--------------------------+-------------------------+
+| outer.west            | outer.center             | outer.east              |
+| Toolbar               | Diagram                  | Help                    |
++-----------------------+--------------------------+-------------------------+
+| outer.south/inner.west| outer.south/inner.center | outer.south/inner.west  |
+| Run control           | Displays                 | Sliders                 |
++-----------------------+--------------------------+-------------------------+
+|                         outer.south/inner.south                            |
+|                         Footer                                             |
++-----------------------+--------------------------+-------------------------+
+-->
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+
+	<title>SystoLite</title> 
+
+	<link type="text/css" rel="stylesheet" href="layout-default-latest.css" />
+
+    <!-- CSS -->
+	<style type="text/css">
+    .ui-layout-south {padding:0px;}
+	</style>
+    <link type="text/css" rel="stylesheet" href="jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="jquery-ui-1.9.2.custom.css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <style>
+    dialog-form { font-size: 80%; }
+    label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    span {font-size:12px;}
+
+    .ui-layout-pane {padding-top:0px;padding-left:0px;padding-bottom:0px;padding-right:0px; }
+  </style>
+
+    <!-- Systo core - defines the SYSTO global variable and some core functions -->
+    <script type="text/javascript" src="systo.js"></script>
+
+    <!--script src="http://code.jquery.com/jquery-1.9.1.js"></script-->
+    <!--script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script-->
+    <script type="text/javascript" src="jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.10.3.js"></script>
+	<script type="text/javascript" src="jquery.layout-latest.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="formatting.js"></script>
+
+    <!-- Supplementary Systo code -->
+    <script type="text/javascript" src="generate_simulation_code.js"></script>
+    <script type="text/javascript" src="action.js"></script>
+    <script type="text/javascript" src="equation.js"></script>
+
+    <!-- A model language definition, held as a Javascript object literal -->
+    <script type="text/javascript" src="languages/system_dynamics.js"></script>
+    <script type="text/javascript" src="languages/wcs_conceptual_modelling.js"></script>
+
+    <!-- Model(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="models/miniworld.js"></script>
+    <script type="text/javascript" src="models/predator_prey_shodor.js"></script>
+    <script type="text/javascript" src="models/cascade.js"></script>
+
+    <!-- Tutorials, held as a Javascript object literal -->
+    <script type="text/javascript" src="tutorials/tank1.js"></script>
+
+
+    <!-- The widgets used in this page -->
+	<script type="text/javascript" src="systo_widgets/jquery.diagram.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.dialog_sd_node.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.keypad.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.language_toolbar.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.local_open.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.local_save.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.messages.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.multi_plotter.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.multiple_sliders1.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.plotter.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.node_dialog_system_dynamics.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.runcontrol.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.select_function.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.select_influencing_node.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.sketchgraph.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.slider1.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.table.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.technical.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.tutorial.js"></script>
+
+    <!-- This page's custom script -->
+    <script>
+
+        SYSTO.state.currentModelId = SYSTO.getUID();
+        SYSTO.models[SYSTO.state.currentModelId] = {
+            meta:{
+                language:"system_dynamics",
+                id:SYSTO.state.currentModelId},
+            nodes:{},
+            arcs:{}
+        };
+        createDefaultScenario(SYSTO.models[SYSTO.state.currentModelId]);
+
+
+        $(document).ready(function() {
+
+            var options = {
+                defaults: {
+                    minSize: 100
+                },
+                north: {
+                    size: 30,
+                    minSize: 30,
+                    maxSize: 30
+                },
+                west: {
+                    size: 170
+                },
+                center: {
+                    size: 400
+                },
+                east: {
+                    size:200
+                },
+                south: {
+                    size:300,
+                    childOptions: {
+                        minSize: 50,
+                        west: {
+                            size: 200,
+                            minSize: 50,
+                            maxSize: 300
+                        },
+                        center: {
+                            onresize: function() {
+                                // TODO: fix this awful hack!
+                                // If I simply have the trigger line in, and the user resizes the
+                                // panel when the plotter tab is *not* the active one, then it 
+                                // does not display properly when the user goes back to it, and
+                                // there is no way of getting it to display peoperly.   So: I make
+                                // it (tab 0) active; do the trigger, then revet to whatever was
+                                // the active tab!    Works fine!
+                                var activeTab = $( "#tabs" ).tabs("option", "active");
+                                $( "#tabs" ).tabs( "option", "active", 0 );
+                                $('.plotter_resize_listener').trigger('click');
+                                $( "#tabs" ).tabs( "option", "active", activeTab );
+                            }
+                        },
+                        east: {
+                            size: 400,
+                            minSize: 50,
+                            maxSize: 400
+                        },
+                        south: {
+                            size: 30,
+                            minSize: 30,
+                            maxSize: 30
+                        }
+                    }
+                }
+            };
+		    $('#body').layout(options);
+
+
+            var modelId = SYSTO.state.currentModelId;
+
+            $('#diagram').diagram({modelId:modelId, allowEditing:true});
+            //$('#diagram').resizable();
+            
+            $('#toolbar_buttons').language_toolbar({
+                languageId:'system_dynamics',
+                modelId:modelId,
+                show_button_language:true,
+                show_button_new:true,
+                show_button_open:true,
+                show_button_save:true,
+                show_button_tutorial:true,
+                show_button_technical:true
+            });
+            $('#toolbar').draggable({zIndex:10000, handle:'.language_toolbar_header'});
+
+            $('#local_save').local_save({modelId:modelId});
+            $('#local_open').local_open();
+
+            $('#messages').messages();
+            //$('#tutorial').tutorial();
+/*
+            $('#sliders').multiplesliders1({
+                model:modelId,
+                selectNode:function (node) {
+                    if (node.type === 'variable') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+*/
+            $('#tabs').tabs();
+
+            $('#plotter').plotter({
+                modelId:modelId,
+                canvasWidth:400, 
+                canvasHeight:250,
+                selectNode:function (node) {
+                    if (node.type === 'stock') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            $('#multi_plotter').multi_plotter({modelId:modelId});
+
+            $('#table').table({modelId:modelId});
+
+            $('#messages').messages();
+            $('#runcontrol').runcontrol({modelId:modelId});
+            $('#sliders').multiplesliders1({modelId:modelId});
+            $('#dialog_sd_node').dialog_sd_node();
+
+
+            //$('.keypad_key').
+            //   click(function() {$('.keypad_listener').trigger('click',event)});
+/*
+            $('.keypad_key').
+                click(function(event) {
+                    var keypad_symbol = event.target.attributes[3].value;
+                    var equationString = $('#equation').text();
+                    equationString += keypad_symbol;
+                    $('#equation').text(equationString);
+                });
+*/
+/*
+                $('.keypad_listener').click(function(event,ui) {
+                alert(111);
+                console.debug(event);
+                console.debug(ui);
+                console.debug(ui.target.textContent);
+                console.debug(ui.target.attributes[2].value);
+            });
+*/
+
+
+            for (var modelId in SYSTO.models) {
+                var option = $('<option value="'+modelId+'">'+modelId+'</option>').
+                    mouseover(function(event) {
+                        var modelId = event.target.value;
+                        var model = SYSTO.models[modelId];
+                        var title = model.meta.title;
+                        var description = model.meta.description;
+                        var author = model.meta.author;
+                    }).
+                    click(function(event) {
+                        var modelId = event.target.value;
+                        SYSTO.switchToModel(modelId);
+                    });
+                $('#model_select').append(option);
+            }
+
+            $('.functions_class').bind('functionschange', function() {
+                alert(123);});
+
+
+            $('#technical').technical().resizable().
+                draggable({
+                    handle:'.technical_header',
+                    containment:'window'});
+
+            $( "#splash" ).dialog({
+              autoOpen: false,
+              height: 460,
+              width: 550,
+              modal: true,
+              title: 'Welcome to SystoLite',
+              buttons: {
+                Close: function() {
+                    $( this ).dialog( "close" );
+                },
+                'Close, and do not show again': function() {
+                  localStorage.setItem('SYSTO_noSplash', true);
+                  $( this ).dialog( "close" );
+                }
+              },
+              close: function() {
+                //$('#splash').css('display','hidden');
+              }
+            });
+
+            if (!localStorage.getItem('SYSTO_noSplash')) {
+                $( "#splash" ).dialog( "open" );
+            }
+
+
+
+            // Temporary section to test equation-checking code
+/*
+            var model = SYSTO.models.miniworld_with_errors;
+            var nodeList = model.nodes;
+            for (var nodeId in nodeList) {
+                var node = nodeList[nodeId];
+                if (node.extras.equation) {
+                    var equationString = node.extras.equation.value;
+                    //console.debug('\n'+node.label+' = '+equationString);
+                    //console.debug(JSON.stringify(SYSTO.checkEquation(model, node, equationString),null,4));
+                }
+            }
+
+            console.debug('Function testing');
+            var funtext = 'a=b*3*sin (a+b)';
+            try {
+                var fun = new Function(funtext);
+                console.debug('OK!');
+            }
+            catch(err) {
+                console.debug('Error!');
+            }
+*/
+	    });
+
+	</script>
+
+</head>
+
+
+<body>
+
+
+<div id="technical" style="display:none; position:absolute; top:10px; left:150px; width:60px; height:500px; margin:1px; margin-right:2px; background-color:gray; border:solid 1px gray; z-index:5000;"></div>
+
+
+<!--div id="splash" style="position:absolute; top:150px; left:150px; width:650px; height:270px; padding:20px; background-color:#f0ffff; border:solid 1px gray; z-index:5000;"-->
+<div id="splash" style="font-size:80%;">
+    <h3>SystoLite - the lightweight web app for System Dynamics modelling</h3>
+Easy to use!<br/>
+Runs models fast!<br/>
+Free; no registration or sign-in: just start!<br/><br/>
+    <b>To get started, you can:</b><br/>
+    <table>
+        <tr>
+            <td title="List of built-in models"><img src="images/splash_models.gif" alt="List of built-in models"/></td>
+            <td valign="top">Click on one of the built-in models in the Toolbar panel.</td>
+        </tr>
+        <tr>
+            <td title="Tutorial button"><img src="images/splash_tutor.gif" alt="Tutorial button"/></td>
+            <td valign="top">Click on the Tutor button in the Toolbar panel to use the built-in interactive tutorial.</td>
+        </tr>
+        <tr>
+            <td valign="top" title="System Dynamics symbols"><img src="images/splash_sd_symbols.gif" alt="System Dynamics symbols"/></td>
+            <td valign="top">Build your own model using the standard System Dynamics symbols (stock, variable, flow and influence) at the top of the Toolbar panel.</td>
+        </tr>
+    </table>
+</div>
+
+<div id="body" style="height:500px; width:700px">
+<div class="ui-layout-north">
+    <b>SystoLite</b> - a basic web app for building and running System Dynamics models
+</div>
+<div id="toolbar" class="ui-layout-west">
+    <div id="toolbar_buttons"></div>
+    <select id="model_select" size="4" style="width:100%; overflow:hidden;"></select>
+</div>
+
+<div id="diagram" class="ui-layout-center" style="overflow:hidden;">
+</div>
+
+<div id="messages" class="ui-layout-east">
+    <div id="tutorial"></div>
+</div>
+
+<div class="ui-layout-south">
+
+	<div id="runcontrol" class="ui-layout-west"></div>
+
+    <div  class="ui-layout-center" style="position:absolute; top:0px; left:0px; bottom:0px; right:0px;">
+        <div id="tabs"style="position:absolute; top:0px; left:0px; bottom:0px; right:0px;">
+            <ul>
+                <li style="font-size:14px;"><a href="#plotter" style="outline-color:transparent; padding-top:0px; 
+                    padding-bottom:0px; padding-left:4px; padding-right:4px;">Plotter</a></li>
+                <li style="font-size:14px;"><a href="#multi_plotter" style="outline-color:transparent;padding-top:0px;
+                    padding-bottom:0px; padding-left:4px; padding-right:4px;">MultiPlotter</a></li>
+                <li style="font-size:14px;"><a href="#table" style="outline-color:transparent; padding-top:0px; 
+                    padding-bottom:0px; padding-left:4px; padding-right:4px;">Table</a></li>
+            </ul>
+            <!--div id="plotter" style="position:relative; width:90%; height:75%; margin:1px; border:solid 0px white;
+                overflow:hidden;"></div-->
+            <div id="plotter" style="position:absolute; top:25px; left:0px; bottom:0px; right:0px; margin:1px; 
+                border:solid 0px white; overflow:hidden;"></div>
+            <div id="multi_plotter" style="position:absolute; top:25px; left:0px; bottom:0px; right:0px; margin:1px;
+                border:solid 0px white; overflow:hidden;"></div>
+            <div id="table" style="position:absolute; top:25px; left:0px; bottom:0px; right:0px; margin:1px; 
+                border:solid 0px white; overflow:auto;"></div>
+        </div>
+    </div>
+</div> <!-- End of #body -->
+
+	<div id="sliders" class="ui-layout-east"></div>
+
+	<div class="ui-layout-south">SystoLite - built using the <a href="http://www.systo.org">Systo</a> tookit</div>
+</div>
+
+<!-- Popups -->
+    <div id="local_save"  style="float:left; margin:1px; margin-right:20px; border:solid 1px gray"></div>
+    <div id="local_open"  style="float:left; margin:1px; width:400px; height:300px; margin-right:20px; border:solid 1px gray"></div>
+
+    <div id="dialog_sd_node"></div>
+
+
+    <div id="test_keypad_listener" class="keypad_listener"></div>
+
+</body>
+</html>

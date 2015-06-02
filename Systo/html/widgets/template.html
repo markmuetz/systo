@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title>Systo widget: TEMPLATE</title>
+
+	<link rel="stylesheet" href="widget.css" media="screen">
+
+    <!-- Systo core - defines the SYSTO global variable and some core functions -->
+    <script type="text/javascript" src="systo.js"></script>
+
+    <!-- Core libraries -->
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.8.23.custom.min.js"></script>
+    <script type="text/javascript" src="formatting.js"></script>
+    <script type="text/javascript" src="action.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.ui.widget.js"></script>
+
+    <!-- Supplementary Systo code -->
+    <script type="text/javascript" src="generate_simulation_code.js"></script>
+    <script type="text/javascript" src="action.js"></script>
+
+    <!-- A model language definition, held as a Javascript object literal -->
+    <script type="text/javascript" src="languages/system_dynamics.js"></script>
+
+    <!-- Model(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="models/miniworld.js"></script>
+
+    <!-- The widgets used in this page -->
+	<script type="text/javascript" src="systo_widgets/jquery.diagram.js"></script>
+</head>
+
+<body>
+<div id="container">
+	<div id="top">
+		<h1><a href="index.html">Systo</a></h1>
+        <p>Open systems modelling</p>
+	</div>
+	<div id="leftnav">
+		<p>
+            <a href="index.html">Home</a><br/>
+            About<br/>
+            <a href="http://demos.html">Demos</a><br/>
+            <b>Widgets</b><br/>
+            <a href="http://languages.html">Languages</a><br/>
+            Models<br/>
+            Guide<br/>
+            - for model users<br/>
+            - for model authors<br/>
+            - for web page authors<br/>
+            - for widget developers<br/>
+            - for language authors<br/>
+            <a href="https://bitbucket.org/rmuetzelfeldt/systo/src">Code repository</a><br/>
+            Contact
+		</p>
+        <div id="widget_nav"></div>
+	</div>
+
+
+	<div id="content"> <!-- Main page content -->
+
+        <h1>Systo widget: TEMPLATE</h1>
+
+        <h2>Description</h2>
+
+        <h2>For the user</h2>
+        <p>This section is for the web page user: what you will see on the screen, and how to work with any controls (for example, buttons or sliders) which the widget might present to you.<p>
+        <p>Please note that the person who developed the particular web page you are using might have chosen to hide some of these controls.   In any case, It is good practice for the web page developer to provide relevant information on using the widget.</p>
+
+        <h2>For the developer</h2>
+        <p>This section contains information on the widget's API, to help the web page developer to incorporate this widget in any web pages.   This requires knowledge of working with both HTML and Javascript, and preferably some basic undertstanding of jQuery widgets.</p>
+
+        <h3>Options</h3>
+            
+            <span>Name</span><br/>
+            <span>Type</span>
+            <span>Description</span>
+            
+            
+        <h3>Methods</h3>
+
+
+	</div> <!-- End of main page content -->
+
+
+	<div id="footer">
+		Footer
+	</div>
+</div>
+</body>
+</html>
+

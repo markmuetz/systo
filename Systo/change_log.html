@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>SystoLite change log</title>
+<style>
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+</style>
+</head>
+
+<body>
+<pre>
+Mon 30 June 2014 21.10 BST
+1. Tiny changes (including a bug fix in the Model Properties dialogue)
+
+Mon 30 June 2014 19.20 BST
+1. The Model properties button in the Toolbar now enables the user to edit the model name, title, description and author.
+
+Mon 30 June 2014 14.40 BST
+1. Major overhaul of saving to/loading from file
+2. Now use model label (actually model.meta.name) for display purposes, but ID also usually visible (e.g. in model menu; Run Control header)
+3. All New models are labelled 'noname' -not trying anything clever with giving each one a number.  But ID can be used to discriminate (in the unlikely event that user makes several new models and does not re-label them when saving).
+4. Added a 'Clear Local Storage' button in footer - for emergency use.
+5. Add last-update date/time to footer (has to be edited manually), plus link to this change log.
+6. Loading an incomplete/incorrect model (from file or Local Storage) should now be more robust - simulate() has a try-catch on it to pick up any failure when executing generated code.
+7. Only file tabe in open/save dialogues work: user gets a message thatthe others are not yet operational.
+8. Label-edit div is now closwed by clicking on a toolbar snode or arc button.
+
+TODO:
+1. Still some minor funnies when doing New after loading and running a amodel (e.g. graph and sliders still)
+2. End-time issue still needs sorting.
+</pre>
+</html>

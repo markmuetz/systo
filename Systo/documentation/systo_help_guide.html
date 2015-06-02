@@ -1,0 +1,164 @@
+<html>
+<head>
+    <title>The Systo help guide</title>
+    <style>
+    body {
+        font-family:arial, sans-serif;}
+    h1 {
+        font-size:21px;
+        color:#902020;}
+    h2 {
+        margin-top:40px;
+        font-size:18px;
+        color:#902020;}
+    table {
+        border:solid 1px #604040;}
+    td {
+        width:200px;
+        padding:12px;
+        border:solid 1px #804040;
+        vertical-align:top;}
+    </style>
+</head>
+
+<body>
+<h1>A Quick Guide to Using SystoLite</h1>
+
+
+<h2>What is SystoLite?</h2>
+
+<p>SystoLite is a basic, web-based tool for building and running System Dynamics (stock-and-flow) models.   You can make your own models from scratch, or load other people's models.</p> 
+
+<p>If you are not familiar with System Dynamics modelling, please click here.  If you are, and have used an existing System Dynamics tool such as Stella, Vensim, Simile, or InsightMaker, you should be able to get by using your existing knowledge.</p> 
+
+<p>SystoLite is built using the Systo toolkit.    This consists of a set of "widgets", where each widget does one job relevant to working with system models - for example, one widget enables you to view and edit a model diagram, another shows a graph of simulation results, while another lists out the model equations.  There are potentiallty many such widgets, and anyone with some programming ability can make their own.   Web developers can pick-and-mix the widgets to make their own web pages, using just basic HTML and a little Javascript.   SystoLite is merely just one of potentially many web pages made using Systo widgets.  It has been developed both to illustrate the Systo approach, and to provide an easy-to-use environment for people new to System Dynamics modelling.</p> 
+
+
+<h2>How do I access SystoLite?</h2>
+
+<p>Simply go to <a href="http://www.systo.org/systolite">http://www.systo.org/systolite</a>.   Probably best to use the Chrome or Chromium browser.  Basic diagram interaction seems sluggish in Firefox, and I have not tested other browsers. </p>  
+
+<p>SystoLite is free, and doesn't even require any registration.  You can just start making your own models, save them on your own computer, and share them with others.</p>  
+
+<p>Note that anyone is free to make a copy of SystoLite and use it on their own computer, or indeed put it on the web where anyone can access it.   Equally, anyone can make any changes they want.  So, the version at http://www.systo.org/systolite is potentially just one of many.
+
+
+<h2>The SystoLite screen</h2>
+<p>SystoLite consists of 6 panels.    Together they fill the browser window (apart from a thin header and footer).   You can move the boundary between the panels (by dragging the boundary), and collapse ones you don't need (by clicking on the boundary handle).</p> 
+
+<p>The upper three panels are mainly concerned with the model itself, while the bottom three are mainly concerned with running the moel (i.e. simulating its behaviour).</p> 
+
+<img src="../images/systolite_full_with_labels.gif" width="800" height="600"/>
+
+<h4>The Toolbar panel</h4>
+This contains some buttons and a list of built-in models.   The function of these buttons is described below.<br/>
+
+<h4>The Diagram panel</h4>
+This panel contains the model diagram.  When you move your mouse into it, buttons willappear in the top-right corner for setting various options (such as the canvas colour), and for zooming in and out.   
+
+<h4>The Messages panel</h4>
+This is used for displaying various messages, providing some guidance etc.
+
+<h4>The Run Control panel</h4>
+The Run Control panel is used for giving a value to various settings for running the model, such as the run duration and time step.
+
+<h4>The Display panel</h4>
+This panel is used to display the results of running the model.   There are 3 tabes, one for each of 3 display types:<br/>
+- a plot of several variables (by default, the stock values), all scaled according to a single Y-axis scaling;<br/>
+- a plot of each model variable separately, each scaled according to its own maximum value;<br/>
+- a table in which each column gives the values for one model variable (again, by default, the stocks).
+
+<h4>The Sliders panel</h4>
+This contains sliders for setting the initial stock values and for setting the parameter values.  Moving a slider automatically causes the model to be re-run.
+
+<h2>The Toolbar panel in more detail</h2>
+The buttons do the following:<br/><br/>
+<b>Symbols for System Dynamics diagramming</b>
+<ul>
+<li><b>Stock</b> - add a stock to the model diagram. Click on the button, then click in the diagram panel.</li>
+<li><b>Variable</b> - add a variable (auxiliary) to the model diagram. Click on the button, then click in the diagram panel.</li>
+<li><b>Flow</b> - add a flow to the model diagram. Click on the button,then drag a flow arrow from its start to its end in the diagram panel.</li>
+<li><b>Influence</b> - add an influence to the model diagram. Click on the button,then drag a flow arrow from its start to its end in the diagram panel.</li>
+</ul>
+
+<b>Undo/redo buttons</b>
+These are used to undo previous operations in the model diagram,or to redo undone operations.
+<br/>
+
+<b>New/open/save buttons</b>
+<ul><li><b>New</b> is used to clear the existing model and start a new one.</li>
+<li><b>Open</b> is used to open an existing model, from Local Storage or held in your file system.</li>
+<li><b>Save</b> is used to save the curernt model in Local Storage or in your file system.</li>
+</ul>
+
+<b>Miscellaneous buttons</b>
+<ul><li><b>Replay</b> is not currently in use.</li>
+<li><b>Tutor</b> is used to start an interactive step-by-step tutorial on building a model.</li>
+<li><b>Tech</b> opens up a tabbed set of panels displaying various technical aspects of the current model(s).  Only of interest to developers etc.</li>
+<li><b>Help</b> opens up a new window containing teh SystoLite Help manual.</li>
+</ul>
+
+<h2>Opening an existing model</h2>
+
+<p>You can access an existing model in various ways:</p> 
+
+<p>1. Models provided with SystoLite.
+A number of basic System Dynamics models are provided, and are listed in the top-left panel.   Simply mouse-over a model to read more about it, and click on it to load it.  Notice that the model is automatically run.</p>    
+
+<p>2. From the web.
+You can access somebody else's model simply by entering a URL for it, provided they have published it on the web.   Click on the File Open icon in the top-left panel, and enter the URL.</p> 
+
+<p>3. From a file.
+If someone has sent you a model as a text file, then click on the File Open icon, and select the file using the file directory option.</p> 
+
+<p>4. From Local Storage.
+You can save your own models in what is called "Local Storage" - disk space on your computer available to your browser.   Once you have done this (as described below), you can open them again, by clicking on the File Open icon, select Local Storage, then select the required file.</p> 
+
+
+<h2>Exploring the model diagram</h2>
+<p>You can zoom in and out; drag the diagram around; and move the symbols around.</p> 
+
+<p>To zoom in and out: 
+Simply click on the + and - buttons.</p> 
+
+<p>To drag the diagram around: 
+Move the pointer to a blank part of the diagram, push and hold the mouse button down, move the mouse, then release the mouse button.</p> 
+
+<p>To move model diagram symbols:
+Move the pointer to a stock symbol or a variable label, push and hold the mouse button down, move the mouse, then release the mouse button.</p> 
+
+
+<h2>Editing the model diagram</h2>
+
+<p>If you have already used System Dynamics software, the following notes should be enough to get you started.</p> 
+
+<p>If not, please look at the introductory tutorial, which take you through the process of building a simple System Dynamics model.</p> 
+
+<p>To add a stock or variable: Click on the stock or variable icon in the toolbar in the top-left panel, then click in the diagram area.</p> 
+
+<p>To make a flow arrow: Click on the flow icon in the toolbar, then drag the flow as follows:
+- for a flow between two stocks: mousedown in the first stock, drag to the second, then release the mouse button.
+- for a flow from outside the system (the "source/sink", or "cloud"), mousedown in a blank area of the diagram panel, drag to the stock, then release the mouse button.
+- for a flow from a stock to outside the system: mousedown in the stock, drag to a blank area of teh screen, then release the mouse button.
+Note that Systo automatically adds a "valve" symbol on the flow, and, if required, a "cloud" symbol at the start or end of the flow.</p> 
+
+<p>To add an influence arrow: Click on the influence symbol in the toolbar, then mousedown on the starting node, drag to the destination node, then release the mouse button.</p> 
+
+<p>To move a node around: mousedown on the node, then drag it to the desired position.</p> 
+
+<p>To re-route an influence arrow: mousedown on the arrow, the drag to achieve the required curvature.</p> 
+
+<p>Note that you cannot currently re-route a flow arrow, or move the valve symbol on it.</p> 
+
+<p>To re-label a component: click on the label, edit in the normal way, then click somewhere else.</p> 
+
+<p>To enter a value or an equation for a stock, variable or valve: double-click on the component, enter the value or equation, then click the OK button.</p> 
+
+<p>To run a model when you have finished entering all the values and equations: click on the Run button in the bottom-left Run Control panel.
+Note that sliders appear in the bottom-right panel, one for each stock and one for each parameter (i.e. a variable which is not influenced by any other).  So now you can simply move the sliders, and the model will be automatically re-run continuously.</p> 
+
+</body>
+</html>
+
+
+

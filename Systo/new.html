@@ -1,0 +1,140 @@
+<html>
+<head>
+    <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="jquery-ui-1.9.2.custom.css"/>
+
+    <!-- Systo core - defines the SYSTO global variable and some core functions -->
+    <script type="text/javascript" src="systo.js"></script>
+
+    <!-- Core libraries -->
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.8.23.custom.min.js"></script>
+    <script type="text/javascript" src="generate_simulation_code.js"></script>
+    <script type="text/javascript" src="action.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.ui.widget.js"></script>
+
+    <!-- Supplementary Systo code -->
+    <script type="text/javascript" src="generate_simulation_code.js"></script>
+    <script type="text/javascript" src="action.js"></script>
+
+    <!-- A model language definition, held as a Javascript object literal -->
+    <script type="text/javascript" src="languages/system_dynamics.js"></script>
+    <script type="text/javascript" src="languages/wcs_conceptual_modelling.js"></script>
+
+    <!-- Model(s), held as a Javascript object literal -->
+
+    <!-- The widgets used in this page -->
+	<script type="text/javascript" src="systo_widgets/jquery.runcontrol.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.slider1.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.multiple_sliders1.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.diagram.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.plotter.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.inline_value.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.equation_listing.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.local_saveload.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.node_dialog_system_dynamics.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.language_toolbar.js"></script>
+
+    <!-- This page's custom script -->
+    <script>
+
+        SYSTO.models.new = {
+            "meta":{"language":"system_dynamics"},
+            "nodes":{},
+            "arcs":{}};
+
+
+        $(document).ready(function() {
+
+            //generateSimulationFunction(SYSTO.models['new']);
+/*
+            $('#plotter1').plotter({
+                model:'new',
+                canvasWidth:400, 
+                canvasHeight:250,
+                selectNode:function (node) {
+                    if (node.type === 'stock') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+*/
+            $('#diagram1').diagram({model:'new', allowEditing:true});
+            $('#diagram1').resizable();
+            
+            $('#toolbar1').language_toolbar({
+                languageId:'system_dynamics',
+                show_button_language:true,
+                show_button_new:true,
+                show_button_open:true,
+                show_button_save:true,
+                show_button_technical:true,
+});
+            $('#toolbar1').draggable({zIndex:10000, handle:'.language_toolbar_header'});
+
+            $('#local_saveload').local_saveload();
+
+            $('#runcontrol').runcontrol({model:'new'});
+/*
+            $('#sliders_initialstock').multiplesliders1({
+                model:'new',
+                selectNode:function (node) {
+                    if (node.type === 'stock') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            $('#sliders_parameter').multiplesliders1({
+                model:'new',
+                selectNode:function (node) {
+                    if (node.type === 'variable') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+*/
+            //$('#equation_listing').equation_listing({model:'new'});
+            $('#node_dialogs').append(SYSTO.node_dialogs.system_dynamics);
+ 
+         });
+    </script>
+</head>
+
+<body style="font-family:arial,sans-serif;">
+    <div id="toolbar1" style="float:left; margin:1px; margin-right:20px; border:solid 1px gray"></div>
+    <div id="diagram1" style="float:left; margin:1px; width:700px; height:400px; margin-right:20px; border:solid 1px gray"></div>
+
+    <button onclick="generateSimulationFunction(SYSTO.models['new']);$('.display_listener').trigger('click');">Go</button>
+
+    <div id="runcontrol"  style="float:left; margin:1px; width:400px; height:300px; margin-right:20px; border:solid 1px gray"></div>
+    
+    <div id="local_saveload"  style="float:left; margin:1px; width:400px; height:300px; margin-right:20px; border:solid 1px gray"></div>
+
+    <div id='plotter1' style="float:left; margin:1px; width:400px; height:300px;"></div>
+        <div style="float:left;">
+            <span>Sliders for setting the initial stock values</span>
+            <div id="sliders_initialstock" style="padding:7px; margin:1px; width:420px; border:solid 1px red;"></div>
+        </div>
+        <p>&nbsp;</p>
+        <div style="float:left;">
+            <span>Sliders for setting the parameter values</span>
+            <div id="sliders_parameter" style="padding:7px; margin:1px; width:420px; border:solid 1px blue;"></div>
+        </div>
+
+    <!--h3 style="clear:left;">Equations</h3>
+    <div id="equation_listing"></div-->
+    <div id="node_dialogs"></div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Systo demo: testbed for dialog widgets</title>
+    <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="jquery-ui-1.9.2.custom.css"/>
+
+    <!-- Systo core - defines the SYSTO global variable and some core functions -->
+    <script type="text/javascript" src="systo.js"></script>
+
+    <!-- Core libraries -->
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.8.23.custom.min.js"></script>
+    <script type="text/javascript" src="generate_simulation_code.js"></script>
+    <script type="text/javascript" src="action.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.ui.widget.js"></script>
+
+    <!-- A model language definition, held as a Javascript object literal -->
+    <script type="text/javascript" src="languages/system_dynamics.js"></script>
+
+    <!-- Model(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="models/miniworld.js"></script>
+
+    <!-- The widgets used in this page -->
+	<script type="text/javascript" src="systo_widgets/jquery.equation_dialog.js"></script>
+	<script type="text/javascript" src="systo_widgets/jquery.keypad.js"></script>
+
+    <!-- This page's custom script -->
+    <script>
+
+        $(document).ready(function() {
+
+            //$('#equation_dialog').equation_dialog('miniworld');
+
+            $('#keypad').keypad();
+
+            console.debug('start');
+            $('#test').click(function(event,ui) {
+                console.debug(ui);
+                alert(ui.target.attributes[3].value);
+            });
+         });
+    </script>
+</head>
+
+<body style="font-family:arial,sans-serif;">
+    <div id="equation_dialog" style="float:left; margin:1px; margin-right:20px; border:solid 1px gray"></div>
+    <div id="keypad" style="float:left; margin:1px; margin-right:20px; border:solid 1px white"></div>
+    <div id="test" class="keypad_listener"></div>
+</body>
+</html>
+
+

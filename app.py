@@ -27,12 +27,12 @@ def get_html(path_name):
 
 
 @app.route('/_api/load_json')
-def _api():
+def _api_load_json():
     url = request.args.get('url')
     return jsonify({'content': _download(url)})
 
 @app.route('/_jsonp_proxy/get_jsonp')
-def _api():
+def _jsonp_proxy_get_jsonp():
     url = request.args.get('url')
     secret = request.args.get('secret')
     if secret != 'ce988119-569d-4d72-ba77-ed4e110fef9a':

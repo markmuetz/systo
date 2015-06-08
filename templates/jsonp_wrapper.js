@@ -1,0 +1,3 @@
+payload = {{ payload }}
+
+parsePayload(payload);

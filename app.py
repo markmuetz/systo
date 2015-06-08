@@ -31,9 +31,19 @@ def _api():
     url = request.args.get('url')
     return jsonify({'content': _download(url)})
 
+@app.route('/_jsonp_proxy/get_jsonp')
+def _api():
+    url = request.args.get('url')
+    secret = request.args.get('secret')
+    if secret != 'ce988119-569d-4d72-ba77-ed4e110fef9a':
+        raise Exception()
+
+    payload = _download(url)
+    return render_template('jsonp_wrapper.js', payload=payload)
+
 
 if __name__ == '__main__':
-    app.debug = True
+    # app.debug = True
     # If you want the site to be accessible from other computers:
-    # app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0')
     app.run()

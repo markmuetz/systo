@@ -6,9 +6,12 @@ import secret_settings
 if hasattr(secret_settings, 'SERVER_PASSWORD'):
     env.password = secret_settings.SERVER_PASSWORD
 
+if hasattr(secret_settings, 'USER'):
+    env.user = secret_settings.USER
+
 @task
 def apt_installs():
-    sudo('aptitude install git pip virtualenv supervisor nginx')
+    sudo('aptitude install git python-pip virtualenv supervisor nginx build-essential python-dev')
 
 @task
 def initial_setup():
@@ -16,9 +19,11 @@ def initial_setup():
     if not exists('Projects'):
         run('mkdir Projects')
     with cd('Projects'):
-        run('git clone https://github.com/markmuetz/flask-systo.git')
+        if not exists('flask-systo'):
+            run('git clone https://github.com/markmuetz/flask-systo.git')
         with cd('flask-systo'):
-            run('virtualenv .env')
+            if not exists('.env'):
+                run('virtualenv .env')
             with prefix('source .env/bin/activate'):
                 run('pip install -U pip')
                 run('pip install -r requirements.txt')
@@ -29,15 +34,16 @@ def initial_setup():
 @task 
 def setup_supervisor():
     if not exists('/etc/supervisor/conf.d/supervisor_systo.conf'):
-        sudo('ln -s /home/markmuetz/Projects/flask-systo/supervisor_systo.ini '
-             '/etc/supervisor/conf.d/supervisor_systo.conf')
+        sudo('ln -s /home/{}/Projects/flask-systo/config/supervisor_systo.conf '
+             '/etc/supervisor/conf.d/supervisor_systo.conf'.format(env.user))
     sudo('service supervisor restart')
 
 
 @task 
 def setup_nginx():
     if not exists('/etc/nginx/sites-enabled/nginx_systo.conf'):
-        sudo('ln -s /home/markmuetz/Projects/flask-systo/nginx_systo.conf /etc/nginx/sites-enabled/')
+        sudo('ln -s /home/{}/Projects/flask-systo/config/nginx_systo.conf '
+             '/etc/nginx/sites-enabled/'.format(env.user))
     sudo('service nginx restart')
 
 

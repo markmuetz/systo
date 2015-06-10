@@ -1,0 +1,59 @@
+<html>
+<head>
+    <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui-1.9.2.custom.css"/>
+
+
+    <!-- Systo core - defines the SYSTO global variable and some core functions -->
+    <script type="text/javascript" src="/static/js/systo.js"></script>
+
+    <!-- Core libraries -->
+    <script type="text/javascript" src="/static/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="/static/js/formatting.js"></script>
+    <script type="text/javascript" src="/static/js/action.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.ui.widget.js"></script>
+
+    <!-- Supplementary Systo code -->
+    <script type="text/javascript" src="/static/js/action.js"></script>
+
+    <!-- A model language definition, held as a Javascript object literal -->
+    <script type="text/javascript" src="/static/js/languages/biological_pathway.js"></script>
+
+    <!-- Model(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="/static/js/models/glycolysis.js"></script>
+
+    <!-- The widgets used in this page -->
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.diagram.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.dialog_sd_node.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.keypad.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.sketchgraph.js"></script>
+
+    <!-- This page's custom script -->
+    <script>
+
+        $(document).ready(function() {
+
+            //SYSTO.state.currentModelId = 'glycolysis';
+            SYSTO.switchToModel('glycolysis');
+            $('#diagram1').diagram({modelId:'glycolysis', allowEditing:true});
+            $('#diagram1').resizable();
+
+ 
+         });
+    </script>
+</head>
+
+<body style="font-family:arial,sans-serif;">
+<h3>A biological pathway example: glycolysis</h3>
+<p>Here is a diagram of the biological pathway for glycolysis, constructed in SBGN, the Systems Biology Grphical Notation.   
+The original diagram can be seen <a href="http://www.sbgn.org/Documents/PD_L1_Examples#Glycolysis">here</a></p>
+<img src="/static/images/SBGN_glycolysis.gif"/>
+<p> And here is the same diagram in Systo, using the "biological_pathway" language.</p>
+
+    <div id="diagram1" style="float:left; margin:1px; width:900px; height:600px; margin-right:20px; border:solid 1px gray"></div>
+
+</body>
+</html>
+

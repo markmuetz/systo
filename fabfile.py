@@ -59,8 +59,8 @@ def deploy():
         run('git fetch')
         run('git merge origin/master')
     sudo('service supervisor stop')
-    sudo('service supervisor start')
     sleep(0.5)
+    sudo('service supervisor start')
     sudo('service nginx restart')
     # sudo('supervisorctl restart systo')
 

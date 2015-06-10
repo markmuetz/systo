@@ -2,9 +2,10 @@
 <html lang="en">
     <head>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script type="text/javascript">
-        var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-        </script>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+        <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui.css"/>
+        <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui-1.9.2.custom.css"/>
+        <link type="text/css" rel="stylesheet" href="/static/css/systo-theme.css"/>
         {% block head %}{% endblock %}
     </head>
     <body>

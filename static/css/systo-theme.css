@@ -59,6 +59,16 @@ body {
     padding: 1em;
 }
 
+#footer
+{
+    clear: both;
+    margin: 0;
+    padding: .5em;
+    color: #333;
+    background-color: #ddd;
+    border-top: 1px solid gray;
+}
+/*
 #footer {
     clear: both;
     !margin: 0;
@@ -68,6 +78,7 @@ body {
     background-color: #ddd;
     !border-top: 1px solid gray;
 }
+*/
 
 #leftnav p, #rightnav p { 
     margin: 0 0 1em 0;

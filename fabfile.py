@@ -55,6 +55,12 @@ def setup_nginx():
 
 @task 
 def deploy():
+    git_status = local('git status --porcelain', capture=True)
+    print(git_status)
+    if git_status != '':
+        print('Uncommited changes')
+        print('Please run "git commit" first')
+        return
     local('git push')
     with cd('Projects/flask-systo'):
         run('git fetch')
@@ -63,7 +69,6 @@ def deploy():
     sleep(1.5)
     sudo('service supervisor start')
     sudo('service nginx restart')
-    # sudo('supervisorctl restart systo')
 
 @task 
 def setup_static_nginx():

@@ -21,6 +21,10 @@ def initial_setup():
     with cd('Projects'):
         if not exists('flask-systo'):
             run('git clone https://github.com/markmuetz/flask-systo.git')
+        else:
+            with cd('flask-systo'):
+                run('git pull')
+
         with cd('flask-systo'):
             if not exists('.env'):
                 run('virtualenv .env')

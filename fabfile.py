@@ -59,3 +59,10 @@ def deploy():
     sudo('service supervisor restart')
     sudo('service nginx restart')
     sudo('supervisorctl restart systo')
+
+@task 
+def setup_static_nginx():
+    if not exists('/etc/nginx/sites-enabled/nginx_static_systo.conf'):
+        sudo('ln -s /home/{}/Projects/flask-systo/config/nginx_static_systo.conf '
+             '/etc/nginx/sites-enabled/'.format(env.user))
+    sudo('service nginx restart')

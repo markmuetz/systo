@@ -1,7 +1,7 @@
 from __future__ import print_function
 from time import sleep
 
-from fabric.api import env, run, cd, settings, sudo, put, execute, task, prefix, get
+from fabric.api import env, run, cd, settings, sudo, put, execute, task, prefix, get, local
 from fabric.contrib.files import exists
 import secret_settings
 
@@ -55,6 +55,7 @@ def setup_nginx():
 
 @task 
 def deploy():
+    local('git push')
     with cd('Projects/flask-systo'):
         run('git fetch')
         run('git merge origin/master')

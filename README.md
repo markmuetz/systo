@@ -1,8 +1,6 @@
-# Load JSON in browser Via Proxy
+# Flask-Systo
 
-Simple application to load JSON using a server-side proxy. Either load JSON through AJAX request, or by directly using /load URL. Request sends URL to flask web application, which retrieves to given (JSON) file and returns it to the browser. Proxy is written using [Flask](http://flask.pocoo.org/) and [Python-requests](http://docs.python-requests.org/en/latest/).
-
-## Installation and Running:
+## Installation and Running Locally:
 
     sudo apt-get install python-pip python-virtualenv git
     git clone https://github.com/markmuetz/flask-systo
@@ -12,20 +10,38 @@ Simple application to load JSON using a server-side proxy. Either load JSON thro
     pip install -r requirements.txt
     python app.py
 
-## Updating and Running
+## Updating and Running Locally
 
-    cd flask-json-proxy
+    cd flask-systo
     git pull
     source .env/bin/activate
+    # If requirements.txt has changed:
+    pip install -r requirements.txt
     python app.py
 
 Then navigate to [127.0.0.1:5000](http://127.0.0.1:5000).
 
-## Dependencies:
+## Deploying to Server
 
+    source .env/bin/activate
+    # If added new files:
+    git add -A
+    git commit
+    fab --host flask.systo.org deploy
+
+Then navigate to [flask.systo.org](http://flask.systo.org/). Any page can easily be checked against the old site - [www.systo.org](http://www.systo.org/) - or the static site - [static.systo.org](http://static.systo.org/).
+
+## Dependencies (Local):
+
+- [Systo](http://www.systo.org/) - [code](https://github.com/markmuetz/flask-systo)
 - [Python](https://www.python.org/)
 - [Flask](http://flask.pocoo.org/)
 - [Python-requests](http://docs.python-requests.org/en/latest/)
 - [JQuery](https://jquery.com/)
+- [fabric](http://www.fabfile.org/)
 
-Uses ideas from the [flask AJAX guide](http://flask.pocoo.org/docs/0.10/patterns/jquery/).
+## Dependencies (Server):
+
+- [uWSGI](https://uwsgi-docs.readthedocs.org/en/latest/)
+- [nginx](http://wiki.nginx.org/Main)
+- [supervisor](http://supervisord.org/)

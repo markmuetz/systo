@@ -1,0 +1,3 @@
+- Rationalize jquery versions.
+- Improve templating.
+- Create js concatenator.

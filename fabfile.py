@@ -1,4 +1,6 @@
 from __future__ import print_function
+from time import sleep
+
 from fabric.api import env, run, cd, settings, sudo, put, execute, task, prefix, get
 from fabric.contrib.files import exists
 import secret_settings
@@ -56,9 +58,11 @@ def deploy():
     with cd('Projects/flask-systo'):
         run('git fetch')
         run('git merge origin/master')
-    sudo('service supervisor restart')
+    sudo('service supervisor stop')
+    sudo('service supervisor start')
+    sleep(0.5)
     sudo('service nginx restart')
-    sudo('supervisorctl restart systo')
+    # sudo('supervisorctl restart systo')
 
 @task 
 def setup_static_nginx():

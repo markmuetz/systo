@@ -198,7 +198,11 @@
 <div id="container">
 
     <div id="top">
+        {% if request.path == '/' %}
         <h1>Systo</h1>
+        {% else %}
+        <h1><a href="index.html">Systo</a></h1>
+        {% endif %}
         <p>Open toolkit for systems modelling</p>
     </div>   <!-- end of #container:#top -->
 

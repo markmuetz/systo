@@ -21,6 +21,11 @@ def load():
 
 
 @app.route('/<path:path_name>')
+def systo_page(path_name):
+    return render_template(path_name)
+
+
+@app.route('/html/<path:path_name>')
 def get_html(path_name):
     with open(path_name, 'r') as html_file:
         return html_file.read()

@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<title>Systo demos</title>
+{% endblock %}
+
+{% block body %}
+<div id="container">
+    <div id="top">
+        <h1><a href="index.html">Systo</a></h1>
+        <p>Open systems modelling</p>
+    </div>
+
+    {% include 'nav.html' %}
+
+    <div id="content">
+        <h3>Demos</h3>
+
+        <p>This page links through to various pages (currently, all on systo.org) which demonstrate ways in which the Systo toolkit can be used.</p>
+
+        <p><b>Please note</b> that currently (Sept 2013) all the examples are highly experimental, and liable to change.   Also, they have only been checked using Chrome, so their appearance in other browsers is not known.</p>
+
+        <p>The pages are pretty basic.   For example, they do not include a 'Systo' header, or navigation links for the Systo site.     This is deliberate, so that you can focus on the Systo content of the page.  If you are interested in making your own Systo web page, then you should be able to use these pages as a starting point (do "View source" to see the underlying HTML), and then customise and embelish them with your own HTML.</p>  
+        <table style="border:none">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Systo features</th>
+            </tr>
+            <tr>
+                <td><a href="miniworld.html">Miniworld</a></td>
+                <td>A very simple (3 stock) model of global population, pollution and production capacity</td>
+                <td>Example of a web page for a specific model, using the system_dynamics diagramming language.   Shows diagram, sliders and plots of results.</td>
+            </tr>
+            <tr>
+                <td><a href="test1.html">Test1</a></td>
+                <td>A mixture of models, languages and widgets</td>
+                <td>Show that you can have:<br/>
+                    - more than one diagram for a particular model;<br/>
+                    - more than one model of the same language (System Dynamics); and<br/>
+                    - more than one diagramming language (system_dynamics and wcs_conceptual_modelling)<br/>
+                    open in the same page at the same time. </td>
+            </tr>
+            <tr>
+                <td><a href="lintul.html">Lintul</a></td>
+                <td>An example of a simple but scietntifically-based crop growth model.</td>
+                <td>Example of a web page for a specific model, using the system_dynamics diagramming language.   Shows diagram, sliders and plots of results.</td>
+            </tr>
+            <tr>
+                <td><a href="glycolysis.html">Glycolysis</a></td>
+                <td>A model of the glycolysis reaction pathway, using the biological_pathway diagramming language.</td>
+                <td>Currently, diagram only (i.e. the model is not runnable - yet).</td>
+            </tr>
+            <tr>
+                <td><a href="auto_layout.html">Automatic layout of model diagram</a></td>
+                <td>A demo of a prototype widget for automatically layout a model diagram.</td>
+                <td>This is demonstrated with an existing (hand-drawn) model diagram, for the Miniworld model.   In future, it's main use will be to generate a model diagram for models expressed in text form, e.g. a System Dynamics model expressed only as a set of equations.</td>
+            </tr>
+            <tr>
+                <td><a href="wonderland.html">Wonderland</a></td>
+                <td>"Wonderland is an integrated mathematical model used for studying phenomena in sustainable development. First introduced by (Sanderson 1994), there are now several related versions of the model in use. Wonderland allows economists, policy analysts and environmentalist to study the interactions between the economic, demographic and anthropogenic sectors of an idealized world, thereby enabling them to obtain insights transferable to the real world." (from <a href="http://en.wikipedia.org/wiki/Wonderland_model">Wikipedia article</a>)</td>
+                <td>Demonstrates a medium-complexity model.  Basic plotting and controls.   Note: the re-implementation of this model from <a href="http://models.metasd.com/wonderland/">Tom Fiddaman's version on MetaSD</a> has not been checked!</td>
+            </tr>
+            <tr>
+                <td><a href="two_species_sir.html">Two-species disease model</a></td>
+                <td>Model prepared for the annual conference of the UK Chapter of the System Dynamics Society 26-27th March 2015. </td>
+                <td>Demonstrates a medium-complexity model.  Basic plotting and controls.</td>
+            </tr>
+            <tr>
+                <td><a href="import.html">Import a Vensim, Insight Maker or XMILE model into Systo</a></td>
+                <td>A demo of a prototype widget for importing a model in another format (Vensim, Insight Maker or XMILE) into Systo.   Note that this is highly experimental.  It works for the test case included on this page, but has not been tested with any other Vensim model.  In any case, it will (in its current form) work only for basic System Dynamics models (no arrays, lookups, etc).</td>
+                <td>This demonstrates the use of a widget for convering a model from one form to another (rather than merely displaying a Systo-represented model or the simulation results).   There will eventually be many such widgets, probably bundled into a over-arching "model import/export" widget.</td>
+            </tr>
+            <tr>
+                <td><a href="example_ian.html">Animating cartoon images with model values</a><br/>(highly experimental)</td>
+                <td>This links the values resulting from a simulation run of a simple 4-tank cascade model to attributes (the size, in this case) of cartoon symbols on a landscape.</td>
+                <td>I took 3 images from the <a href="http://ian.umces.edu/symbols/">UMCES "Integration and Analysis Network" (IAN) symbol library</a>.   One is a highly simplified landscape (an estuary).  The others are cartoon-style images of a pig and a wolf respectively.  Move the sliders, and see how the size of the two symbols change, reflecting the final value of the "tank3" and "tank4" stocks!</td>
+            </tr>
+            <tr>
+                <td><a href="pagemaker.html">Page layout designer</a><br/>(highly experimental)</td>
+                <td><b>Intended for live demos by the Systo author!  No instructions provided!  Use at your own risk!</b><br/>Enables you to place widgets in a workspace, then resize them, move them around, etc.</td>
+                <td> </td>
+            </tr>
+            <tr>
+                <td><a href="sysiwyg.html">Systo WYSIWYG editor</a><br/>(highly experimenatl)</td>
+                <td><b>Intended for live demos by the Systo author!  No instructions provided!  Use at your own risk!</b><br/>Provides a conventional WYSIWYG editor, withthe added extra of being able to insert live Systo widgets in the page, just ike inserting an image in a conventional WYSIWYG editor.</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div id="footer">
+        Footer
+    </div>
+</div>
+{% endblock %}
+

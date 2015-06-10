@@ -48,7 +48,7 @@ def _jsonp_proxy_get_jsonp():
 
 
 if __name__ == '__main__':
-    # app.debug = True
+    app.debug = True
     # If you want the site to be accessible from other computers:
     app.run(host='0.0.0.0')
     app.run()

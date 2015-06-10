@@ -28,7 +28,7 @@ $(document).ready(function() {
     for (var widgetId in widget_list) {
         var widget = widget_list[widgetId];
         //$('#widget_table').append('<tr><td><a href="widget_'+widgetId+'.html">'+widgetId+'</a></td><td>'+widget.usage+'</td><td>'+widget.descr+'</td></tr>');
-        $('#widget_table').append('<tr><td><b>'+widgetId+'</b><br/><a href="systo_widgets/jquery.'+widgetId+'.js">code</a></td><td>'+widget.usage+'</td><td>'+widget.descr+'</td></tr>');
+        $('#widget_table').append('<tr><td><b>'+widgetId+'</b><br/><a href="/static/js/systo_widgets/jquery.'+widgetId+'.js">code</a></td><td>'+widget.usage+'</td><td>'+widget.descr+'</td></tr>');
     }
 });
 

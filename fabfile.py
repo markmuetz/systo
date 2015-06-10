@@ -56,7 +56,6 @@ def setup_nginx():
 @task 
 def deploy():
     git_status = local('git status --porcelain', capture=True)
-    print(git_status)
     if git_status != '':
         print('Uncommited changes')
         print('Please run "git commit" first')

@@ -2,7 +2,7 @@
 
 ## Installation and Running Locally:
 
-    sudo apt-get install python-pip python-virtualenv git
+    sudo apt-get install python-pip python-virtualenv git python-dev
     git clone https://github.com/markmuetz/flask-systo
     cd flask-systo
     virtualenv .env

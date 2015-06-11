@@ -2,6 +2,14 @@
 
 ## Installation and Running Locally:
 
+First thing to do is create a `secret_settings.py` file and add USER and SERVER\_PASSWORD variables
+to it. This will make it easier to push changes to the remove server. e.g.:
+
+    USER = 'my_username'
+    SERVER_PASSWORD = 'my_password'
+
+Then run the following commands.
+
     sudo apt-get install python-pip python-virtualenv git python-dev
     git clone https://github.com/markmuetz/flask-systo
     cd flask-systo

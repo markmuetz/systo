@@ -3,35 +3,24 @@
 {% block head %}
 <title>Systo widgets</title>
 <script type="text/javascript" src="/static/js/widget_list.js"></script>
-<!--script type="text/javascript" src="jquery-1.10.2.js"></script-->
 {% endblock %}
 
-{% block body %}
-<div id="container">
-    <div id="top">
-        <h1><a href="/">Systo</a></h1>
-        <p>Open systems modelling</p>
-    </div>
+{% block top %}
+<h1><a href="/">Systo</a></h1>
+<p>Open systems modelling</p>
+{% endblock %}
 
-    {% include 'nav.html' %}
-
-    <div id="content">
-
-        <h3>Widgets</h3>
-        <p>See the <b><a href="widget_gallery.html">widget gallery</a></b> for a working example of some of these widgets.</p>
+{% block content %}
+<h3>Widgets</h3>
+<p>See the <b><a href="widget_gallery.html">widget gallery</a></b> for a working example of some of these widgets.</p>
 
 
-        <table id="widget_table" style="border:none">
-            <tr>
-                <th><b>Name</b></th>
-                <th><b>Usage</b></th>
-                <th><b>Description</b></th>
-            </tr>
-        </table>
-    </div>
-    <div id="footer">
-        Footer
-    </div>
-</div>
+<table id="widget_table" style="border:none">
+    <tr>
+        <th><b>Name</b></th>
+        <th><b>Usage</b></th>
+        <th><b>Description</b></th>
+    </tr>
+</table>
 {% endblock %}
 

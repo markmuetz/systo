@@ -1,0 +1,39 @@
+{% extends 'modelgallery/modelgallery_layout.html' %}
+
+{% block head %}
+<!-- Model(s), held as a Javascript object literal -->
+<script type="text/javascript" src="/static/js/models/sir01.js"></script>
+<script type="text/javascript" src="/static/js/models/sir02.js"></script>
+
+<!-- This page's custom script -->
+<script>
+
+    $(document).ready(function() {
+
+        var models = [
+            {modelId:'sir01', title:'Basic SIR (susceptible-infected-recovered) model',description:'Source: <a href="http://www.tb.ethz.ch/education/model/SIR/sir.pdf">pdf</a>'},
+            {modelId:'sir02', title:'Basic SIR (susceptible-infected-recovered) model: torpedo infection',description:'Adapted from sir01.'}
+        ];
+
+        SYSTO.makeModelGallery(models);
+
+
+     });
+</script>
+{% endblock %}
+
+{% block name %}
+Gallery 5
+{% endblock %}
+
+{% block pagetitle %}
+Systo model gallery 5: Epidemics
+{% endblock %}
+
+{% block title %}
+Systo model gallery 5: Epidemics
+{% endblock %}
+
+{% block description %}
+Basic (non-spatial) models of the spread of a disease within a population.
+{% endblock %}

@@ -1,66 +1,46 @@
 {% extends "layout.html" %}
 
 {% block head %}
-<title>Systo demos</title>
+<title>Systo models</title>
 {% endblock %}
 
-{% block body %}
-<div id="container">
-    <div id="top">
-        <h1><a href="/">Systo</a></h1>
-        <p>Open systems modelling</p>
-    </div>
+{% block top %}
+<h1><a href="/">Systo</a></h1>
+<p>Open systems modelling</p>
+{% endblock %}
 
-    <div id="leftnav">
-        <p>
-        <a href="https://systoblog.wordpress.com/2014/04/27/welcome-to-the-systo-blog/">About</a><br/>
-        <a href="demos.html">Demos</a><br/>
-        <a href="languages.html">Languages</a><br/>
-        <a href="widgets.html">Widgets</a><br/>
-        <b>Models</b><br/>
-        <a href="systolite.html">SystoLite</a><br/>
-        <a href="https://systoblog.wordpress.com/about/">Contact</a><br/>
-        <a href="https://systoblog.wordpress.com/">Blog</a><br/>
-        </p>
-    </div>   <!-- end of #container:#leftnav -->
+{% block content %}
+<h3>Models</h3>
 
-    <div id="content">
-        <h3>Models</h3>
-
-        <p>This page links through to various model collections hosted on systo.org.    Currently (April 2014) these are organised in a number of model galleries, as set out in the following table.</p>  
-        <table style="border:none">
-            <tr>
-                <th>Gallery</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td width="200px"><a href="modelgallery01.html">Model gallery 1</a>:<br/>Basic System Dynamics models</th>
-                <td>These models are generic System Dynamics models, intended to introduce the newcomer to basic building blocks for constructing System Dynamics models.   Entries include single-stock models with simple inflows and outflows (for example, constant flows or flows proportional to the stock level).</th>
-            </tr>
-            <tr>
-                <td width="200px"><a href="modelgallery02.html">Model gallery 2</a>:<br/>Population dynamics</th>
-                <td>One- and two-species population models.</th>
-            </tr>
-            <tr>
-                <td width="200px"><a href="modelgallery03.html">Model gallery 3</a>:<br/>Crop and forest models</th>
-                <td>Process-based models of crop growth and forest dynamics.</th>
-            </tr>
-            <tr>
-                <td width="200px"><a href="modelgallery04.html">Model gallery 4</a>:<br/>Simple world models</th>
-                <td>Models of world dynamics, including human aspects.</th>
-            </tr>
-            <tr>
-                <td width="200px"><a href="modelgallery05.html">Model gallery 5</a>:<br/>Epidemics</th>
-                <td>Basic (non-spatial) models of the spread of a disease within a population.</th>
-            </tr>
-            <tr>
-                <td width="200px"><a href="modelgallery06.html">Model gallery 6</a>:<br/>Models from Andy Ford's <i>Modeling the Environment</i></th>
-                <td>Basic (non-spatial) models of the spread of a disease within a population.</th>
-            </tr>
-        </table>
-    </div>
-    <div id="footer">
-        Footer
-    </div>
-</div>
+<p>This page links through to various model collections hosted on systo.org.    Currently (April 2014) these are organised in a number of model galleries, as set out in the following table.</p>  
+<table style="border:none">
+    <tr>
+        <th>Gallery</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td width="200px"><a href="modelgallery/modelgallery01.html">Model gallery 1</a>:<br/>Basic System Dynamics models</th>
+        <td>These models are generic System Dynamics models, intended to introduce the newcomer to basic building blocks for constructing System Dynamics models.   Entries include single-stock models with simple inflows and outflows (for example, constant flows or flows proportional to the stock level).</th>
+    </tr>
+    <tr>
+        <td width="200px"><a href="modelgallery/modelgallery02.html">Model gallery 2</a>:<br/>Population dynamics</th>
+        <td>One- and two-species population models.</th>
+    </tr>
+    <tr>
+        <td width="200px"><a href="modelgallery/modelgallery03.html">Model gallery 3</a>:<br/>Crop and forest models</th>
+        <td>Process-based models of crop growth and forest dynamics.</th>
+    </tr>
+    <tr>
+        <td width="200px"><a href="modelgallery/modelgallery04.html">Model gallery 4</a>:<br/>Simple world models</th>
+        <td>Models of world dynamics, including human aspects.</th>
+    </tr>
+    <tr>
+        <td width="200px"><a href="modelgallery/modelgallery05.html">Model gallery 5</a>:<br/>Epidemics</th>
+        <td>Basic (non-spatial) models of the spread of a disease within a population.</th>
+    </tr>
+    <tr>
+        <td width="200px"><a href="modelgallery/modelgallery06.html">Model gallery 6</a>:<br/>Models from Andy Ford's <i>Modeling the Environment</i></th>
+        <td>Basic (non-spatial) models of the spread of a disease within a population.</th>
+    </tr>
+</table>
 {% endblock %}

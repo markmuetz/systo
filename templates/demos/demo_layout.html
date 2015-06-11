@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+        {% include "systo_core_include.html" %}
+
+        <!-- A model language definition, held as a Javascript object literal -->
+        <script type="text/javascript" src="/static/js/languages/system_dynamics.js"></script>
+        <script type="text/javascript" src="/static/js/languages/wcs_conceptual_modelling.js"></script>
+
+        <!-- Model(s), held as a Javascript object literal -->
+        <script type="text/javascript" src="/static/js/models/miniworld.js"></script>
+        <script type="text/javascript" src="/static/js/models/predator_prey_shodor.js"></script>
+        <script type="text/javascript" src="/static/js/models/conceptual_model1.js"></script>
+
+        {% block head %}{% endblock %}
+    </head>
+    <body style="font-family:arial,sans-serif;">
+        {% block body %}{% endblock %}
+    </body>
+</html>
+

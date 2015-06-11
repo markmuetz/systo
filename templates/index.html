@@ -1,28 +1,9 @@
 {% extends "layout.html" %}
 
 {% block head %}
-<!-- Systo core - defines the SYSTO global variable and some core functions -->
-<script type="text/javascript" src="/static/js/systo.js"></script>
+<title>Systo</title>
 
-<!-- Core libraries -->
-<script type="text/javascript" src="/static/js/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="/static/js/jquery-ui-1.10.3.js"></script>
-<script type="text/javascript" src="/static/js/jquery.layout-latest.js"></script>
-<script type="text/javascript" src="/static/js/systo_widgets/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="/static/js/formatting.js"></script>
-<script type="text/javascript" src="/static/js/Blob.js"></script>
-<script type="text/javascript" src="/static/js/FileSaver.js"></script>
-
-<!-- Supplementary Systo code -->
-<!--script type="text/javascript" src="generate_simulation_code_v1.js"></script-->
-<script type="text/javascript" src="/static/js/simulation.js"></script>
-<script type="text/javascript" src="/static/js/action.js"></script>
-<script type="text/javascript" src="/static/js/equation.js"></script>
-<script type="text/javascript" src="/static/js/functions.js"></script>
-<script type="text/javascript" src="/static/js/plugins/codeGenerator/euler1.js"></script>
-<script type="text/javascript" src="/static/js/plugins/codeGenerator/euler2.js"></script>
-<script type="text/javascript" src="/static/js/plugins/codeGenerator/rk41.js"></script>
-<script type="text/javascript" src="/static/js/plugins/codeGenerator/euler1animate.js"></script>
+{% include "systo_core_include.html" %}
 
 <!-- Model language definition(s), held as a Javascript object literal -->
 <script type="text/javascript" src="/static/js/languages/system_dynamics.js"></script>
@@ -39,7 +20,6 @@
 <script type="text/javascript" src="/static/js/systo_widgets/jquery.plotter.js"></script>
 <script type="text/javascript" src="/static/js/systo_widgets/jquery.scenarios.js"></script>
 <script type="text/javascript" src="/static/js/systo_widgets/jquery.slider1.js"></script>
-
 
 <!-- This page's custom script -->
 <script>
@@ -194,57 +174,53 @@
 </script>
 {% endblock %}
 
-{% block body %}
-<div id="container">
-
-    <div id="top">
+    {% block top %}
         {% if request.path == '/' %}
         <h1>Systo</h1>
         {% else %}
         <h1><a href="index.html">Systo</a></h1>
         {% endif %}
         <p>Open toolkit for systems modelling</p>
-    </div>   <!-- end of #container:#top -->
+    {% endblock %}
 
-    {% include 'nav.html' %}
+    {% block rightnav %}
+        <div id="rightnav">
+            <p>
+            <span style="font-size:17px; font-weight:bold;">News</span><br/>
 
-    <div id="rightnav">
+            <b>29 Mar 2015</b><br/>
+            Systo was presented at <a href="http://systemdynamics.org.uk/annual-gathering/">UK SD Annual Meeting</a> on the 27th March.  Live demonstration, followed by participants following <a href="uksd.html">a set of exercises</a>.<br/>
 
-        <p>
-        <span style="font-size:17px; font-weight:bold;">News</span><br/>
+            <b>16 Mar 2015</b><br/>
+            Preparing for <a href="http://systemdynamics.org.uk/annual-gathering/">UK SD Annual Meeting</a>, 26-27 March 2015: <br/><a href="uksd.html">Home page</a> for Systo exercises.<br/>
 
-        <b>29 Mar 2015</b><br/>
-        Systo was presented at <a href="http://systemdynamics.org.uk/annual-gathering/">UK SD Annual Meeting</a> on the 27th March.  Live demonstration, followed by participants following <a href="uksd.html">a set of exercises</a>.<br/>
+            <b>13 Mar 2015</b><br/>
+            <span style="color:red">Major overhaul, reflecting substantial changes to Systo. Old pages still available at </span><a href="2013/index.html">systo.org/2013</a>.<br/>
 
-        <b>16 Mar 2015</b><br/>
-        Preparing for <a href="http://systemdynamics.org.uk/annual-gathering/">UK SD Annual Meeting</a>, 26-27 March 2015: <br/><a href="uksd.html">Home page</a> for Systo exercises.<br/>
+            <b>13 Sept 2013</b><br/>
+            Systo web site goes live.<br/>
 
-        <b>13 Mar 2015</b><br/>
-        <span style="color:red">Major overhaul, reflecting substantial changes to Systo. Old pages still available at </span><a href="2013/index.html">systo.org/2013</a>.<br/>
+            </p>
 
-        <b>13 Sept 2013</b><br/>
-        Systo web site goes live.<br/>
+            <p>
+            <b>Featured web page</b><br/>
+            <a href="miniworld.html">Miniworld</a>
+            </p>
 
-        </p>
+            <p>
+            <b>Featured model</b><br/>
+            <a href="glycolysis.html">Glycolysis</a> (biological pathway)
+            </p>
 
-        <p>
-        <b>Featured web page</b><br/>
-        <a href="miniworld.html">Miniworld</a>
-        </p>
+            <p>
+            <b>Featured widget</b><br/>
+            <a href="miniworld.html#equation_listing">Equation listing</a><br.>
+            A very basic widget - a good starting point for aspiring Systo developers.
+            </p>
+        </div>  <!-- end of #container:#rightnav -->
+    {% endblock %}
 
-        <p>
-        <b>Featured model</b><br/>
-        <a href="glycolysis.html">Glycolysis</a> (biological pathway)
-        </p>
-
-        <p>
-        <b>Featured widget</b><br/>
-        <a href="miniworld.html#equation_listing">Equation listing</a><br.>
-        A very basic widget - a good starting point for aspiring Systo developers.
-        </p>
-    </div>    <!-- end of #container:#rightnav -->
-
-    <div id="content">
+    {% block content %}
         <h1>Welcome to Systo...</h3>
         <p>... an open, adaptable and lightweight approach for viewing, building and running systems models in web pages.</p>
         <!--p>Systo is based on a collection of widgets, each of which does a specific job: for example, display a model diagram, or plot the results of simulating the behaviour of a model.   These widgets can be made by anyone, and can live anywhere on the internet.    Web page developers can then choose any combination of these, and incorporate them into their own web page.</p>
@@ -308,10 +284,9 @@
             <div id='plotter1' style="position:relative;clear:both;margin:1px; width:400px; height:300px;"></div>
         </div>
 
-    </div>
+    {% endblock %}
 
-    <div id="footer" style="padding:6px; height:40px; background-color:#ddd;">
-
+    {% block footer %}
         <div style="float:left;">
             Author: Robert Muetzelfeldt<br/>
             Last updated: 26 Nov 2014
@@ -321,9 +296,11 @@
             <button onclick="$('#dialog_confirm_clear_local_storage').dialog('open');">Clear Local Storage</button>
         </div>
 
-    </div>
+    {% endblock %}
 
 </div>
+
+{% block body %}
 
 <!-- dialogs -->
 <div id="node_dialogs"></div>

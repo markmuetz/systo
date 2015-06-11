@@ -1,0 +1,41 @@
+{% extends 'modelgallery/modelgallery_layout.html' %}
+
+{% block head %}
+<!-- Model(s), held as a Javascript object literal -->
+<script type="text/javascript" src="/static/js/models/gallery/gallery001.js"></script>
+<script type="text/javascript" src="/static/js/models/cascade.js"></script>
+
+<!-- This page's custom script -->
+<script>
+
+    $(document).ready(function() {
+
+        //$('#node_dialogs').append(SYSTO.node_dialogs.system_dynamics);
+
+        var galleryModels = [
+            {modelId:'gallery001', title:'One stock, one constant inflow',description:''},
+            {modelId:'cascade', title:'Cascade',description:'Four tanks connented in series.  See how water moves from one to the next one.'}
+        ];
+
+        SYSTO.makeModelGallery(galleryModels);
+
+
+     });
+</script>
+{% endblock %}
+
+{% block name %}
+Gallery 1
+{% endblock %}
+
+{% block pagetitle %}
+Systo model gallery 1: basic System Dynamics
+{% endblock %}
+
+{% block title %}
+Systo model gallery 1: basic System Dynamics
+{% endblock %}
+
+{% block description %}
+This page presents a range of very basic System Dynamics models.
+{% endblock %}

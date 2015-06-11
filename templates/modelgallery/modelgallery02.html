@@ -1,0 +1,43 @@
+{% extends 'modelgallery/modelgallery_layout.html' %}
+
+{% block head %}
+<!-- A model language definition, held as a Javascript object literal -->
+<script type="text/javascript" src="/static/js/languages/system_dynamics.js"></script>
+
+<!-- Model(s), held as a Javascript object literal -->
+<script type="text/javascript" src="/static/js/models/predator_prey_shodor.js"></script>
+
+
+<!-- This page's custom script -->
+<script>
+
+    $(document).ready(function() {
+
+        $('#node_dialogs').append(SYSTO.node_dialogs.system_dynamics);
+
+        var models = [
+            {modelId:'predator_prey_shodor', title:'Shodor predator-prey',description:''}
+        ];
+
+        SYSTO.makeModelGallery(models);
+
+
+     });
+</script>
+{% endblock %}
+
+{% block name %}
+Gallery 2
+{% endblock %}
+
+{% block pagetitle %}
+Systo model gallery 2: Population dynanics
+{% endblock %}
+
+{% block title %}
+Systo model gallery 2: Population dynanics
+{% endblock %}
+
+{% block description %}
+This page presents a range of one- and two-species population models.
+{% endblock %}

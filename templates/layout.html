@@ -1,14 +1,48 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-        <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui.css"/>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+
+        <!--link type="text/css" rel="stylesheet" href="/static/css/jquery-ui.css"/-->
         <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui-1.9.2.custom.css"/>
         <link type="text/css" rel="stylesheet" href="/static/css/systo-theme.css"/>
+
         {% block head %}{% endblock %}
     </head>
     <body>
+        <div id="container">
+            <div id="top">
+                {% block top %}{% endblock %}
+            </div>
+
+            <div id="leftnav">
+                <p>
+                <a href="https://systoblog.wordpress.com/2014/04/27/welcome-to-the-systo-blog/">About</a><br/>
+                {% if request.path == '/demos.html' %}<b>Demos</b><br/>{% else %}<a href="demos.html">Demos</a><br/>{% endif %}
+                {% if request.path == '/languages.html' %}<b>Languages</b><br/>{% else %}<a href="languages.html">Languages</a><br/>{% endif %}
+                {% if request.path == '/widgets.html' %}<b>Widgets</b><br/>{% else %}<a href="widgets.html">Widgets</a><br/>{% endif %}
+                {% if request.path == '/models.html' %}<b>Models</b><br/>{% else %}<a href="models.html">Models</a><br/>{% endif %}
+                <a href="systolite.html">SystoLite</a><br/>
+                <a href="https://systoblog.wordpress.com/about/">Contact</a><br/>
+                <a href="https://systoblog.wordpress.com/">Blog</a><br/>
+                </p>
+            </div>   <!-- end of #container:#leftnav -->
+
+            {% block rightnav %}{% endblock %}
+
+            <div id="content">
+                {% block content %}{% endblock %}
+            </div>
+
+            <div id="footer" style="padding:6px; height:40px; background-color:#ddd;">
+                {% block footer %}{% endblock %}
+            </div>
+        </div>
+
         {% block body %}{% endblock %}
     </body>
 </html>

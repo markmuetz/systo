@@ -1,0 +1,41 @@
+{% extends 'modelgallery/modelgallery_layout.html' %}
+
+{% block head %}
+<!-- Model(s), held as a Javascript object literal -->
+<script type="text/javascript" src="/static/js/models/forest_cover_tipping_point.js"></script>
+<script type="text/javascript" src="/static/js/models/lintul.js"></script>
+
+<!-- This page's custom script -->
+<script>
+
+    $(document).ready(function() {
+
+        $('#node_dialogs').append(SYSTO.node_dialogs.system_dynamics);
+
+        var models = [
+            {modelId:'lintul', title:'Lintul',description:'A simple but scientifically-based crop model.   See <a href="lintul.html">this page</a> for the Systo implementation, or go to <a href="http://models.pps.wur.nl/content/lintul-1-simple-crop-growth-model-simulate-growth-under-potential-growing-conditions">this page</a> for the original Fortran implementation.'},
+            {modelId:'forest_cover_tipping_point', title:'Forest cover tipping point',description:'A very simple mofel of forest cover, illustrating how even a simple system can have multiple stable points, depening on the initial conditions (initial forest cover).  Based on <a href="http://blog.metasd.com/2011/10/forest-cover-tipping-points/">a model implemented in Vensim</a> by Tom Fiddaman.'}
+        ];
+
+        SYSTO.makeModelGallery(models);
+
+
+     });
+</script>
+{% endblock %}
+
+{% block name %}
+Gallery 3
+{% endblock %}
+
+{% block pagetitle %}
+Systo model gallery 3: Crop and forest models
+{% endblock %}
+
+{% block title %}
+Systo model gallery 3: Crop and forest models
+{% endblock %}
+
+{% block description %}
+This page presents a range of process-based models of crop growth and forest dynamics.
+{% endblock %}

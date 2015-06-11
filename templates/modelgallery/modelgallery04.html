@@ -1,0 +1,43 @@
+{% extends 'modelgallery/modelgallery_layout.html' %}
+
+{% block head %}
+<!-- Model(s), held as a Javascript object literal -->
+<script type="text/javascript" src="/static/js/models/daisyworld.js"></script>
+<script type="text/javascript" src="/static/js/models/miniworld.js"></script>
+<script type="text/javascript" src="/static/js/models/wonderland.js"></script>
+<script type="text/javascript" src="/static/js/models/zerodim_ebm.js"></script>
+
+<!-- This page's custom script -->
+<script>
+
+    $(document).ready(function() {
+
+        var models = [
+            {modelId:'daisyworld', title:'Daisyworld',description:'An implementation of the James Lovelock Daisyworld model.  This is meant o illustrate how a very simple form of "life" (black and white daisies) can hold global temperature roughly constant over a range of solar output. This version is a re-implementation of <a href="http://www.simulistics.com/examples/catalogue/daisy-world">the Simile version</a>.'},
+            {modelId:'miniworld', title:'Miniworld',description:'A greatly-simplified world, having just 3 stocks: Population; Environmental Pollution and Production Capacity.   See <a href="miniworld.html">this page</a> for more information and a Systo-based implementation.'},
+            {modelId:'wonderland', title:'Wonderland',description:'A simplified world, similar to <a href="miniworld.html">Miniworld</a>. See <a href="lintul.html">this page</a> for the Systo implementation, or <a href="http://models.metasd.com/wonderland/">this entry</a> in the MetaSD Model Library for a detailed description of the model and a Vensim implementation.'},
+            //{modelId:'zerodim_ebm', title:'Zero-dimensional EBM',description:'Zero-dimensional energy balance model'}
+        ];
+
+        SYSTO.makeModelGallery(models);
+
+
+     });
+</script>
+{% endblock %}
+
+{% block name %}
+Gallery 4
+{% endblock %}
+
+{% block pagetitle %}
+Systo model gallery 4: simple world models
+{% endblock %}
+
+{% block title %}
+Systo model gallery 4: simple world models
+{% endblock %}
+
+{% block description %}
+Models of world dynamics, including human aspects.
+{% endblock %}

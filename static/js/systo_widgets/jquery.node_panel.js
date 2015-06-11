@@ -286,7 +286,7 @@ function makeOne(widget, div, node) {
             });
 
     
-    var optionsButton = $('<img src="images/options1.gif" class="optionsButton" style="display:none; width:24px; height:24px; position:absolute; right:3px; top:4px; z-index:200;"></img>').
+    var optionsButton = $('<img src="/static/images/options1.gif" class="optionsButton" style="display:none; width:24px; height:24px; position:absolute; right:3px; top:4px; z-index:200;"></img>').
         click(function() {
             $('#dialog_nodepanel_options').
                 data('widget',widget).

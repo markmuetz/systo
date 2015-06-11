@@ -424,7 +424,7 @@
                     });
 
             
-            var optionsButton = $('<img src="images/options1.gif" class="optionsButton" style="display:none; width:24px; height:24px; position:absolute; right:3px; top:4px; z-index:200;"></img>').
+            var optionsButton = $('<img src="/static/images/options1.gif" class="optionsButton" style="display:none; width:24px; height:24px; position:absolute; right:3px; top:4px; z-index:200;"></img>').
                 click(function() {
                     $('#dialog_plotter_options').
                         data('widget', self).
@@ -436,7 +436,7 @@
                     $(this).css('display','block');
                 });
             
-            var variablesButton = $('<img src="images/options1.gif" class="variablesButton" style="display:none; width:24px; height:24px; position:absolute; right:3px; top:34px; z-index:200;"></img>').
+            var variablesButton = $('<img src="/static/images/options1.gif" class="variablesButton" style="display:none; width:24px; height:24px; position:absolute; right:3px; top:34px; z-index:200;"></img>').
                 click(function() {
                     $('#dialog_plotter_variables').
                         data('widget', self).
@@ -834,7 +834,6 @@ function render(widget) {
     context.strokeStyle = 'black';
     context.lineWidth = 1;
     context.fillRect(0,0, context.canvas.width, context.canvas.height);
-    context.strokeRect(0,0, context.canvas.width, context.canvas.height);
     context.stroke();
 
     // Work out range etc
@@ -897,6 +896,13 @@ function render(widget) {
         context.moveTo(0,y);
         context.lineTo(context.canvas.width,y);
     }
+    context.stroke();
+
+    context.beginPath();
+    context.fillStyle = options.canvasColour;
+    context.strokeStyle = 'black';
+    context.lineWidth = 1;
+    context.strokeRect(0,0, context.canvas.width, context.canvas.height);
     context.stroke();
 
     var icolour = 0;

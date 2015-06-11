@@ -476,7 +476,7 @@
             $(div).append(colourSelect);
 */
     
-            var options_gif = 'images/options1.gif';
+            var options_gif = '/static/images/options1.gif';
             var optionsButton = $('<button style="width:24px; height:24px; position:absolute; right:0px; top:0px; background-image:url('+options_gif+');"></button>').
                 click(function() {
                         $('#dialog_diagram_options').

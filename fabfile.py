@@ -3,13 +3,16 @@ from time import sleep
 
 from fabric.api import env, run, cd, settings, sudo, put, execute, task, prefix, get, local
 from fabric.contrib.files import exists
-import secret_settings
+try:
+    import secret_settings
 
-if hasattr(secret_settings, 'SERVER_PASSWORD'):
-    env.password = secret_settings.SERVER_PASSWORD
+    if hasattr(secret_settings, 'SERVER_PASSWORD'):
+        env.password = secret_settings.SERVER_PASSWORD
 
-if hasattr(secret_settings, 'USER'):
-    env.user = secret_settings.USER
+    if hasattr(secret_settings, 'USER'):
+        env.user = secret_settings.USER
+except ImportError:
+    pass
 
 @task
 def apt_installs():

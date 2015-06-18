@@ -169,11 +169,12 @@ SYSTO.switchToModel = function (modelId, packageId) {
 
 SYSTO.createNewModel = function (languageId) {
     var modelId = SYSTO.getUID();
+    var name = modelId;
     SYSTO.state.currentModelId = modelId;
     SYSTO.models[modelId] = {
         meta:{
             language:languageId,
-            name:'noname',
+            name:name,
             id:modelId},
         nodes:{},
         arcs:{},
@@ -181,6 +182,7 @@ SYSTO.createNewModel = function (languageId) {
         results:{},
         resultStats:{}
     };
+
     SYSTO.createDefaultScenario(SYSTO.models[SYSTO.state.currentModelId]);
     return modelId;
 };
@@ -227,9 +229,9 @@ SYSTO.createNewModel_1 = function (parameters) {
     console.debug('=====');
     console.debug(SYSTO.models);
     if (parameters.baseName) {
-        var modelName = SYSTO.makeUniqueModelName(parameters.baseName);
+        var modelName = SYSTO.makeUniqueModelName(modelId, parameters.baseName);
     } else {
-        modelName = SYSTO.makeUniqueModelName('noname');
+        modelName = SYSTO.makeUniqueModelName(modelId, 'noname');
     }
 
     SYSTO.revertToPointer();
@@ -322,7 +324,11 @@ SYSTO.copyModel = function(modelId) {
 // loaded (i.e. in SYSTO.models), and generates a new one by adding on the next available integer
 // to the proposed name (the baseName).
 
-SYSTO.makeUniqueModelName = function (baseName) {
+SYSTO.makeUniqueModelName = function (modelId, baseName) {
+
+    // Temporrary measure, bypassing "basename" concept altogther.
+    return modelId;
+
     if (!SYSTO.modelNameExists(baseName)) {
         console.debug('..... '+baseName+' OK');
         return baseName;
@@ -773,7 +779,7 @@ SYSTO.findNodeIdFromLabel = function(model, nodeLabel) {
 // Note; lowercase L and number 1 left out, to avoid confusion.
 SYSTO.cs = 'abcdefghijkmnopqrstuvwxyz023456789'.split('');
 
-SYSTO.getUID = function () {
+SYSTO.getUIDxxx = function () {
     var d = new Date();
     var n = d.getTime()-1395000000000;
     var UID = '';
@@ -788,6 +794,27 @@ SYSTO.getUID = function () {
 };
 
 
+
+SYSTO.getUID = function () {
+    var consonants1 = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t',
+        'v','w','x','y','z'];
+    var consonants2 = ['b','c','d','f','g','k','l','m','n','p','q','r','s','t',
+        'v','w','x','y','z'];
+    var vowels = ['a','e','i','o','u'];
+
+    var c1 = getChar(consonants1,21);
+    var c2 = getChar(vowels,5);
+    var c3 = getChar(consonants2,19);
+    var c4 = getChar(consonants1,21);
+    var c5 = getChar(vowels,5);
+    var c6 = getChar(consonants2,19);
+    return c1+c2+c3+c4+c5+c6;
+
+    function getChar(charArray,n) {
+        var i = Math.max(1,Math.min(n,Math.floor(Math.random()*n)));
+        return charArray[i];
+    }
+};
 
 // =============================== Functions for managing node selection
 
@@ -1726,25 +1753,198 @@ SYSTO.createVariablesDialog = function(parameters) {
 // ==========================================================REST API, AJAX, YQL....
     // YQL, AJAX etc
 
+
+// This is Mark's simple proxy, allowing for a static HTML file and for the
+// proxy to live on a different server.
+// See emails of 8 June 2015
+
+// function parsePayload(Url) is called in a template on the proxy's server, in a
+// file called templates/json_wrapper.js
+
+function parsePayload(data) {
+    console.debug(data);
+    if (data) {
+        if (SYSTO.validateModelJson(data) && data.meta) {
+            if (data.meta.id) {
+                var modelId = data.meta.id;
+            } else {
+                modelId = 'loaded_from_url_with_no_id';  // Should not happen.
+            }
+            SYSTO.models[modelId] = data;
+            // There are 3 reasons for switching to this model now:
+
+            // 1. The initialModelId has been specified, so check its ID.
+            if (SYSTO.state.initialModelId && SYSTO.state.initialModelId === modelId) {
+                var switchToModelNow = true;
+
+            // 2. Only one model has been provided via a URL.
+            } else if (SYSTO.state.nModelsFromUrl && SYSTO.state.nModelsFromUrl === 1) {
+                switchToModelNow = true;
+
+            // 3. We have no information on the two state settings.  (The information has to
+            // be set by the Javascript on the web page, and we can't guarantee that the page
+            // developer will have provided it.)
+            } else if (!SYSTO.state.nModelsFromUrl && !SYSTO.state.initialModelId) {
+                switchToModelNow = true;
+
+            } else {
+                switchToModelNow = false;
+            }
+            if (switchToModelNow) {
+                SYSTO.switchToModel(modelId, 'package1');
+                SYSTO.state.currentModelId = modelId;
+            }
+        } else {
+            alert('ERROR\n'+
+                'Attempting to access an external model file, but failed.\n'+
+                'No "meta" property.');
+            SYSTO.state.currentModelId = null;
+        }
+    } else {
+        alert('ERROR\n'+
+            'Attempting to access an external model file, but failed.\n'+
+            'Possibly incorrect URL entered, or the file no longer exists, or the server is down.');
+        SYSTO.state.currentModelId = null;
+    }
+}
+
+
+SYSTO.loadModelFromUrl = function (url) {
+
+    // Reject anything that doesn't resemble a "plain" URL.
+    // This is regex2 from http://jsfiddle.net/mwoodman/UycV9/
+    var httpRegexp = /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[,;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/;
+    var regexp = new RegExp(httpRegexp);
+    if (!url.match(regexp)) {
+        alert('ERROR: Expected a URL.\n'+url+'\n'+'is not a valid URL.'); 
+        return;
+    }
+
+    var base_url = 'http://jsonp-proxy.1000earths.com:5000/_jsonp_proxy/get_jsonp';
+    var jsonp_url = base_url + '?url=' + url + '&secret=ce988119-569d-4d72-ba77-ed4e110fef9a';
+    console.debug(jsonp_url);
+
+    var script = document.createElement( "script" );
+    script.type = "text/javascript";
+    script.src = jsonp_url;
+    $('head').append(script);
+}
+
+
+
+// Ideally, Systo will automatically fall back on this method (using YQL) if the default
+// Systo proxy (Mark's) fails for some reason (like the server is down).   However, I can't
+// see how to do that.
+
+// Generic  version - allows for choice of proxy
+SYSTO.loadModelFromUrlxxx = function (modelJsonUrl) {
+
+    yqlProxy = {};  // The default - YQL
+
+    var systoProxy = { 
+        url: 'http://www.systo.org/php/proxy.php?format=xml&callback=?', 
+        cleanup: function (data) { 
+            data = data.result; 
+            return (data ? data : null); 
+        } 
+    }; 
+    
+    var proxy = yqlProxy;
+    //var proxy = systoProxy;
+
+    proxyGet(
+        modelJsonUrl,
+        function (data) {
+            console.debug(data);
+            SYSTO.models['myex'] = JSON.parse(data);
+            SYSTO.switchToModel('myex', 'package1');
+        }, 
+        proxy 
+    );
+
+    // .......................................................
+    // The following functions are taken from 
+    // http://andowebsit.es/blog/noteslog.com/post/how-to-workaround-the-same-origin-policy/
+    // This looks like a very useful site, both because it tackles the issue of how to wrap 
+    // up YQL in a neat, resilient manner; and because it seems to be sayig how you can make
+    // your own alternative.  If that works, at the least it could be a fallback for YQL, in
+    // case the latter is down or ceases to be supported.
+
+    // This is a wapper for YQL, which in fact also allows for some other proxy.
+
+    proxyGet = function ( url, callback, options ) { 
+     
+        // reject anything that doesn't resemble a "plain" URL or a null (see below) 
+        if (! (url === null || /^(https?:|\/\/)/.test(url))) { 
+            throw new SyntaxError('Expected a URL.'); 
+        } 
+         
+        // allow detection of current SSL mode by starting the url with '//' 
+        if (url && url.indexOf('//') === 0) { 
+            url = window.location.protocol + url; 
+        } 
+         
+        // you are strongly advised to choose a different proxy. YQL "from html" is a toy !!  
+        var yql_proxy = { 
+             
+            // a url with or without a '--URL--' placeholder 
+            // -- the placeholder will be replaced by the url param 
+            // -- use a null url param if the proxy url is requestable as is 
+            url: 'http://query.yahooapis.com/v1/public/yql' + '?q=' + encodeURIComponent('select * from html where url="--URL--" and compat="html5" and xpath="*"') + '&format=xml', 
+             
+            // null (no action) or a function that takes response data and returns clean data 
+            cleanup: function (data) { 
+                data = data.results && data.results[0]; 
+                if (! data) return null; 
+                data = data.replace(/&#xD;/ig, "\r").replace(/&#xA;/ig, "\n"); 
+                data = data.replace('<html><head/><body>','');
+                data = data.replace('</body></html>','');
+                return data; 
+            }, 
+             
+            // null (no action) or a function that takes clean data and returns filtered data 
+            filter: null 
+        }; 
+         
+        // use YQL proxy by default, but allow for customizations 
+        options = $.extend(yql_proxy, options || {}); 
+         
+        // make the jsonp request 
+        var jsonp_url = options.url.replace('--URL--', encodeURIComponent(url)) + '&callback=?'; 
+        $.getJSON( jsonp_url, function (data) { 
+            if ($.isFunction(callback)) { 
+                if ($.isFunction(options.cleanup)) { 
+                    data = options.cleanup(data); 
+                    if ($.isFunction(options.filter)) { 
+                        data = options.filter(data); 
+                    } 
+                } 
+                callback(data); 
+            } 
+        } ); 
+    };
+
+}
+
     // See https://developer.yahoo.com/yql/guide/response.html... but still can't get it to return JSON.
     // So used a clunky workaround instead.
 
-SYSTO.openModelFromUrlUsingYql = function (modelJsonUrl) {
-    console.debug(111);
+// Old version
+SYSTO.loadModelFromUrlUsingYql = function (modelJsonUrl) {
     yqlUrl = 
         "http://query.yahooapis.com/v1/public/yql"+
         "?q=" + encodeURIComponent("select * from json where url='" + modelJsonUrl + "'")+
         //"&format=json&callback=fred&jsonCompat=new";  // Doesn't work
         "&format=xml&callback=?";
     $.getJSON(yqlUrl, function(data){
-        console.debug(data);
-        var fileObject = $.xml2json(data.results[0],true);
-        var yqlObjects = fileObject;
-        var systoObjects = processYqlObjects(yqlObjects, {});
-        SYSTO.models['myex'] = systoObjects;
-        SYSTO.switchToModel('myex', 'package1');
-    }).success(function(a,b,c) {console.debug(a);console.debug(b);console.debug(c);});
-
+        if (data.results.length === 1) {
+            var yqlObjects = $.xml2json(data.results[0],true);
+            SYSTO.models['myex'] = processYqlObjects(yqlObjects, {});
+            SYSTO.switchToModel('myex', 'package1');
+        } else {
+            alert('Sorry - cannot load the model specified with the URL '+modelJsonUrl+': there is no model at this address.');
+        }
+    });
 
     function processYqlObjects(yqlObjects, systoObjects) {
         for (var key in yqlObjects) {
@@ -1766,9 +1966,173 @@ SYSTO.openModelFromUrlUsingYql = function (modelJsonUrl) {
     }
 };
 
-function fred(aa, bb, cc) {
-    alert('completed');
-    console.debug('fred');
-    console.debug(aa);
+
+    // .......................................................
+    // The following functions are taken from 
+    // http://andowebsit.es/blog/noteslog.com/post/how-to-workaround-the-same-origin-policy/
+    // This looks like a very useful site, both because it tackles the issue of how to wrap 
+    // up YQL in a neat, resilient manner; and because it seems to be sayig how you can make
+    // your own alternative.  If that works, at the least it could be a fallback for YQL, in
+    // case the latter is down or ceases to be supported.
+
+    // This is a wapper for YQL, which in fact also allows for some other proxy.
+
+    SYSTO.proxyGet = function ( url, callback, options ) { 
+     
+        // reject anything that doesn't resemble a "plain" URL or a null (see below) 
+        if (! (url === null || /^(https?:|\/\/)/.test(url))) { 
+            throw new SyntaxError('Expected a URL.'); 
+        } 
+         
+        // allow detection of current SSL mode by starting the url with '//' 
+        if (url && url.indexOf('//') === 0) { 
+            url = window.location.protocol + url; 
+        } 
+         
+        // you are strongly advised to choose a different proxy. YQL "from html" is a toy !!  
+        var yql_proxy = { 
+             
+            // a url with or without a '--URL--' placeholder 
+            // -- the placeholder will be replaced by the url param 
+            // -- use a null url param if the proxy url is requestable as is 
+            url: 'http://query.yahooapis.com/v1/public/yql' + '?q=' + encodeURIComponent('select * from html where url="--URL--" and compat="html5" and xpath="*"') + '&format=xml', 
+             
+            // null (no action) or a function that takes response data and returns clean data 
+            cleanup: function (data) { 
+                data = data.results && data.results[0]; 
+                if (! data) return null; 
+                data = data.replace(/&#xD;/ig, "\r").replace(/&#xA;/ig, "\n"); 
+                data = data.replace('<html><head/><body>','');
+                data = data.replace('</body></html>','');
+                return data; 
+            }, 
+             
+            // null (no action) or a function that takes clean data and returns filtered data 
+            filter: null 
+        }; 
+         
+        // use YQL proxy by default, but allow for customizations 
+        options = $.extend(yql_proxy, options || {}); 
+         
+        // make the jsonp request 
+        var jsonp_url = options.url.replace('--URL--', encodeURIComponent(url)) + '&callback=?'; 
+        $.getJSON( jsonp_url, function (data) { 
+            if ($.isFunction(callback)) { 
+                if ($.isFunction(options.cleanup)) { 
+                    data = options.cleanup(data); 
+                    if ($.isFunction(options.filter)) { 
+                        data = options.filter(data); 
+                    } 
+                } 
+                callback(data); 
+            } 
+        } ); 
+    };
+
+/*
+Here is the php code for an alternative-to-YQL proxy:
+<?php 
+ 
+$url = $_GET['url']; 
+$url = preg_replace('/^(?!https?\b)/', 'http://', $url); 
+if (preg_match('/^(https?:\/\/)?([\w-]+\.)*\bandowebsit\.es\b/', $url)) { 
+  stop_now(); 
+} 
+$cached = dirname(__FILE__) . '/cached/' . md5($url); 
+ 
+$pass = '73e69002e737fb0d1c7a19a3159d0634'; 
+$code = $_GET['code']; 
+if ($pass == md5($code)) { 
+  $result = file_get_contents($url); 
+  $response = array( 
+    'url'     => $url, 
+    'header'  => $http_response_header,  // see also http://php.net/manual/en/reserved.variables.httpresponseheader.php#113361 
+    'result'  => $result, 
+  ); 
+  $json_response = json_encode($response); 
+  file_put_contents($cached, $json_response); 
+} 
+elseif (file_exists($cached)) { 
+  $json_response = file_get_contents($cached); 
+} 
+else { 
+  stop_now(); 
+} 
+ 
+respond($json_response); 
+ 
+//---------------------------------------------------------------------------------------------------------------------- 
+ 
+// Sends the response and exits. 
+function respond($json_response) { 
+  $callback = preg_replace('/\W+/', '', $_GET['callback']); 
+  if ($callback) { 
+    header('Content-Type: application/javascript'); 
+    echo $callback . '(' . $json_response . ');'; 
+  } 
+  else { 
+    header('Content-Type: application/json'); 
+    echo $json_response; 
+  } 
+  exit; 
+} 
+ 
+// Stops execution by returning null in the expected result format. 
+function stop_now() { 
+  respond(array('result' => null)); 
+} 
+// End of php
+
+ ... and here is how it is used...
+var my_proxy = { 
+    url: '.../?url=--URL--&code=...', 
+    cleanup: function (data) { 
+        data = data.result; 
+        return (data ? data : null); 
+    } 
+}; 
+ 
+$.proxyGet(ajax_url, function (data) {console.log("--- using my proxy:\n" + data);}, my_proxy);
+*/
+
+     
+function ptq(q) {
+    /* parse the query */
+    /* semicolons are nonstandard but we accept them */
+    var x = q.replace(/;/g, '&').split('&'), i, name, t;
+    /* q changes from string version of query to object */
+    for (q={}, i=0; i<x.length; i++) {
+        t = x[i].split('=');
+        name = unescape(t[0]);
+        if (!q[name]) {
+            q[name] = [];
+        }
+        if (t.length == 1) {
+            q[name][0] = true;   // non-standard
+        } else {
+            for (var j=1; j<t.length; j++) {
+                q[name][j-1] = unescape(t[j]);
+            }
+        }
+    }
+    return q;
 }
+
+function param() {
+return ptq(location.search.substring(1).replace(/\+/g, ' '));
+}
+
+
+
+// This *should* check the JSON for a presumed Systo model against the Systo model 
+// JSON Schema (which does not currently exist...).
+
+SYSTO.validateModelJson = function (json) {
+
+    if (json.meta && json.nodes && json.arcs) {
+        return true;
+    } else {
+        return false;
+    }
+};
 

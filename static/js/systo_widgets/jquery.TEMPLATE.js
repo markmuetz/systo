@@ -29,11 +29,6 @@
             this.element.addClass('TEMPLATE-1');
 
             var div = $('<div>TEMPLATE</div>');
-        jQuery('#svg-main').load('/wp-content/uploads/2013/02/piano.svg', null, function() { 
-            jQuery('#theElement').click( function() {
-                alert('You clicked on the element!');
-            });
-        });
             this._container = $(this.element).append(div);
 
             this._setOptions({

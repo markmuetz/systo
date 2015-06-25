@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Systo demo: Example1 - testbed</title>
+
+    <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui-1.9.2.custom.css"/>
+  <style>
+    dialog-form { font-size: 80%; }
+    label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    span {font-size:12px;}
+  </style>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+    <!-- Systo core - defines the SYSTO global variable and some core functions -->
+    <script type="text/javascript" src="/static/js/systo.js"></script>
+
+    <!-- Core libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/formatting.js"></script>
+    <script type="text/javascript" src="/static/js/action.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.xml2json.js"></script>
+
+    <!-- Supplementary Systo code -->
+    <script type="text/javascript" src="/static/js/simulation.js"></script>
+    <script type="text/javascript" src="/static/js/action.js"></script>
+    <script type="text/javascript" src="/static/js/equation.js"></script>
+    <script type="text/javascript" src="/static/js/functions.js"></script>
+    <script type="text/javascript" src="/static/js/plugins/codeGenerator/euler1.js"></script>
+    <script type="text/javascript" src="/static/js/plugins/codeGenerator/euler2.js"></script>
+    <script type="text/javascript" src="/static/js/plugins/codeGenerator/rk41.js"></script>
+    <script type="text/javascript" src="/static/js/plugins/codeGenerator/euler1animate.js"></script>
+
+    <!-- A model language definition, held as a Javascript object literal -->
+    <script type="text/javascript" src="/static/js/languages/system_dynamics.js"></script>
+
+    <!-- Model(s), held as a Javascript object literal -->
+    <script type="text/javascript" src="/static/js/models/cascade.js"></script>
+
+    <!-- The widgets used in this page -->
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.audio_plotter.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.diagram.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.diagram_svg.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.dialog_sd_node.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.equation_listing.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.inline_value.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.keypad.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.myexperiment_open.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.multiple_sliders.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.phase_plane.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.plotter.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.runcontrol.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.sketchgraph.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.slider1.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.table.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.technical.js"></script>
+	<script type="text/javascript" src="/static/js/systo_widgets/jquery.text_plotter.js"></script>
+
+
+    <!-- This page's custom script -->
+    <script>
+        $(document).ready(function() {
+            SYSTO.switchToModel('cascade');
+            $('#diagram1').diagram().resizable();
+            $('#multiple_sliders1').multiple_sliders().resizable();
+            $('#plotter1').plotter({css:{border:'solid 3px red'}}).resizable();
+            $('#myexperiment_open').myexperiment_open();
+            $('#diagram_svg').diagram_svg();
+            SYSTO.trigger({
+                event_type:'change_model_listener',
+                parameters:{packageId:'package1', oldModelId:'',newModelId:'cascade'}
+            });
+            $('#ajax').load('http://www.systo.org/php/proxy1.php',{
+                csurl:'http://www.systo.org/models.miniworld.json'});
+        });          
+    </script>
+</head>
+
+<body>
+    <h1>Example 1</h1>
+    <p>Here is some text.  This is just a regular HTML page, so you can do all the normal things, 
+    like using <b>bold</b> and <i>italics</i> and <a href="systolite.html?http://www.myexperiment.org/workflows/4677/download/4-stock_linear_cascade-v.json">links</a></p>
+
+    <p>The rest of the page simply has 3 widgets for the same model: the "cascade" model, showing water 
+    flowing through a chain of 4 tanks.</p>
+
+    <!-- The following divs are containers for the 3 widgets used in this example.   Note that their 
+         IDs match the ID reference in the page's custom code above.
+         This is the most basic example - you can style and resize the divs, change their layout, and
+         add as much HTML as you like. -->
+    <p>Here is the model diagram:</p>
+    <div id="diagram1"></div>
+    <p>... and here are the sliders and plot of results:</p>
+    <div id="plotter1"></div>
+    <div id="multiple_sliders1"></div>
+    <div id="myexperiment_open"></div>
+    <div id="diagram_svg"></div>
+    <div id="ajax" style="width:300px; height:300px; background:yellow"></div>
+
+</body>
+</html>
+

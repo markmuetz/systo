@@ -130,7 +130,27 @@
                             var i1 = xmlString.indexOf('<content-uri>')+13;
                             var i2 = xmlString.indexOf('</content-uri>');
                             var contentUri = xmlString.substring(i1,i2);
-                            SYSTO.loadModelFromUrl(contentUri);
+                            SYSTO.openModelFromUrlUsingYql(contentUri);
+                            // See https://developer.yahoo.com/yql/guide/response.html... but still can't get it to return JSON.
+/*
+                            xmlSourceWorkflowDownload = contentUri;
+                            yqlUrlWorkflowDownload = 
+                                "http://query.yahooapis.com/v1/public/yql"+
+                                "?q=" + encodeURIComponent("select * from json where url='" + xmlSourceWorkflowDownload + "'")+
+                                //"&format=json&callback=?&jsonCompat=new";  Doesn't work
+                                "&format=xml&callback=?";
+                            $.getJSON(yqlUrlWorkflowDownload, function(data){
+                                console.debug('\n##############################################\n'+xmlSourceWorkflowDownload);
+                                console.debug('yqlUrlWorkflowDownload: '+yqlUrlWorkflowDownload);                            
+                                console.debug(data);
+                                var fileObject = $.xml2json(data.results[0],true);
+                                var yqlObjects = fileObject;
+                                var systoObjects = processYqlObjects(yqlObjects, {});
+                                console.debug(JSON.stringify(systoObjects,null,4));
+                                SYSTO.models['myex'] = systoObjects;
+                                SYSTO.switchToModel('myex', 'package1');
+                            });
+*/
                         });
                     });
             }

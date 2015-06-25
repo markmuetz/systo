@@ -85,12 +85,6 @@
 		                '<li>'+
                             '<a id="open_dialog_tab_text_a" href="#open_dialog_tab_text" style="font-size:0.9em; font-weight:normal; outline-color:transparent;">Text</a>'+
                         '</li>'+
-		                '<li>'+
-                            '<a id="open_dialog_tab_url_a" href="#open_dialog_tab_url" style="font-size:0.9em; font-weight:normal; outline-color:transparent;">URL</a>'+
-                        '</li>'+
-		                '<li>'+
-                            '<a id="open_dialog_tab_myexperiment_a" href="#open_dialog_tab_myexperiment" style="font-size:0.9em; font-weight:normal; outline-color:transparent;">myExperiment</a>'+
-                        '</li>'+
                     '</ul>'+
                 '</div>');
             $(dialog).append(tabsDiv);
@@ -106,13 +100,7 @@
             var textDiv = $('<div id="open_dialog_tab_text">'+
                     '<span>Sorry - opening a model from text pasted into a text box is not yet implemented</span>'+
                 '</div>');
-            var urlDiv = $('<div id="open_dialog_tab_url">'+
-                    '<span><b>Source: URL</b></span>'+
-                '</div>');
-            var myexperimentDiv = $('<div id="open_dialog_tab_myexperiment">'+
-                    '<span><b>Source: myExperiment</span>'+
-                '</div>');
-            $(tabsDiv).append(fileDiv).append(localstorageDiv).append(textDiv).append(urlDiv).append(myexperimentDiv);
+            $(tabsDiv).append(fileDiv).append(localstorageDiv).append(textDiv);
 
 /*
             var sourceOptions = $('<div/>');
@@ -182,7 +170,7 @@
                     '</div');
             $(fileDiv).append(file);
 
-
+/*
             // source=URL - an <input type="text"> element
             var url = $(
                     '<div style="margin:10px;">'+
@@ -190,15 +178,8 @@
                         '<input id="url" type="text" size="37"/>'+
                         '<span>Example:<br/>http://www.similette.com/systo/miniworld.js</span>'+
                     '</div');
-            $(urlDiv).append(url);
-
-            // source=myExperiment 
-            var myexperiment = $(
-                    '<div style="margin:10px;">'+
-                        '<span>Get model from myExperiment...</span>'+
-                    '</div');
-            $(myexperimentDiv).append(myexperiment);
-
+            $(sourceURL).append(url);
+*/
 
             // The display div - for showing model metadata.
             var display = $(

@@ -169,12 +169,11 @@ SYSTO.switchToModel = function (modelId, packageId) {
 
 SYSTO.createNewModel = function (languageId) {
     var modelId = SYSTO.getUID();
-    var name = modelId;
     SYSTO.state.currentModelId = modelId;
     SYSTO.models[modelId] = {
         meta:{
             language:languageId,
-            name:name,
+            name:'noname',
             id:modelId},
         nodes:{},
         arcs:{},
@@ -182,7 +181,6 @@ SYSTO.createNewModel = function (languageId) {
         results:{},
         resultStats:{}
     };
-
     SYSTO.createDefaultScenario(SYSTO.models[SYSTO.state.currentModelId]);
     return modelId;
 };
@@ -229,9 +227,9 @@ SYSTO.createNewModel_1 = function (parameters) {
     console.debug('=====');
     console.debug(SYSTO.models);
     if (parameters.baseName) {
-        var modelName = SYSTO.makeUniqueModelName(modelId, parameters.baseName);
+        var modelName = SYSTO.makeUniqueModelName(parameters.baseName);
     } else {
-        modelName = SYSTO.makeUniqueModelName(modelId, 'noname');
+        modelName = SYSTO.makeUniqueModelName('noname');
     }
 
     SYSTO.revertToPointer();
@@ -324,11 +322,7 @@ SYSTO.copyModel = function(modelId) {
 // loaded (i.e. in SYSTO.models), and generates a new one by adding on the next available integer
 // to the proposed name (the baseName).
 
-SYSTO.makeUniqueModelName = function (modelId, baseName) {
-
-    // Temporrary measure, bypassing "basename" concept altogther.
-    return modelId;
-
+SYSTO.makeUniqueModelName = function (baseName) {
     if (!SYSTO.modelNameExists(baseName)) {
         console.debug('..... '+baseName+' OK');
         return baseName;
@@ -779,7 +773,7 @@ SYSTO.findNodeIdFromLabel = function(model, nodeLabel) {
 // Note; lowercase L and number 1 left out, to avoid confusion.
 SYSTO.cs = 'abcdefghijkmnopqrstuvwxyz023456789'.split('');
 
-SYSTO.getUIDxxx = function () {
+SYSTO.getUID = function () {
     var d = new Date();
     var n = d.getTime()-1395000000000;
     var UID = '';
@@ -794,27 +788,6 @@ SYSTO.getUIDxxx = function () {
 };
 
 
-
-SYSTO.getUID = function () {
-    var consonants1 = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t',
-        'v','w','x','y','z'];
-    var consonants2 = ['b','c','d','f','g','k','l','m','n','p','q','r','s','t',
-        'v','w','x','y','z'];
-    var vowels = ['a','e','i','o','u'];
-
-    var c1 = getChar(consonants1,21);
-    var c2 = getChar(vowels,5);
-    var c3 = getChar(consonants2,19);
-    var c4 = getChar(consonants1,21);
-    var c5 = getChar(vowels,5);
-    var c6 = getChar(consonants2,19);
-    return c1+c2+c3+c4+c5+c6;
-
-    function getChar(charArray,n) {
-        var i = Math.max(1,Math.min(n,Math.floor(Math.random()*n)));
-        return charArray[i];
-    }
-};
 
 // =============================== Functions for managing node selection
 
@@ -1753,6 +1726,110 @@ SYSTO.createVariablesDialog = function(parameters) {
 // ==========================================================REST API, AJAX, YQL....
     // YQL, AJAX etc
 
+    // See https://developer.yahoo.com/yql/guide/response.html... but still can't get it to return JSON.
+    // So used a clunky workaround instead.
+
+SYSTO.openModelFromUrlUsingYql = function (modelJsonUrl) {
+    console.debug(111);
+    yqlUrl = 
+        "http://query.yahooapis.com/v1/public/yql"+
+        "?q=" + encodeURIComponent("select * from json where url='" + modelJsonUrl + "'")+
+        //"&format=json&callback=fred&jsonCompat=new";  // Doesn't work
+        "&format=xml&callback=?";
+    $.getJSON(yqlUrl, function(data){
+        console.debug(data);
+        var fileObject = $.xml2json(data.results[0],true);
+        var yqlObjects = fileObject;
+        var systoObjects = processYqlObjects(yqlObjects, {});
+        SYSTO.models['myex'] = systoObjects;
+        SYSTO.switchToModel('myex', 'package1');
+    }).success(function(a,b,c) {console.debug(a);console.debug(b);console.debug(c);});
+
+
+    function processYqlObjects(yqlObjects, systoObjects) {
+        for (var key in yqlObjects) {
+            if (yqlObjects[key][0].text) {
+                var value = yqlObjects[key][0].text;
+                if (key !== 'value' && isNumericConstant(value)) {
+                    systoObjects[key] = parseFloat(value);
+                } else {
+                    systoObjects[key] = yqlObjects[key][0].text;
+                }
+            } else if (yqlObjects[key][0] === "") {
+                systoObjects[key] = "";
+            } else {
+                var yqlObject = yqlObjects[key][0];
+                systoObjects[key] = processYqlObjects(yqlObject, {});
+            }
+        }
+        return systoObjects;
+    }
+};
+
+function fred(aa, bb, cc) {
+    alert('completed');
+    console.debug('fred');
+    console.debug(aa);
+}
+
+
+
+
+
+SYSTO.loadModelFromUrl = function (url) {
+
+    // Reject anything that doesn't resemble a "plain" URL.
+    // This is regex2 from http://jsfiddle.net/mwoodman/UycV9/
+    var httpRegexp = /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[,;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/;
+    var regexp = new RegExp(httpRegexp);
+    if (!url.match(regexp)) {
+        alert('ERROR: Expected a URL.\n'+url+'\n'+'is not a valid URL.'); 
+        return;
+    }
+
+    var base_url = 'http://jsonp-proxy.1000earths.com:5000/_jsonp_proxy/get_jsonp';
+    var jsonp_url = base_url + '?url=' + url + '&secret=ce988119-569d-4d72-ba77-ed4e110fef9a';
+    console.debug(jsonp_url);
+
+    var script = document.createElement( "script" );
+    script.type = "text/javascript";
+    script.src = jsonp_url;
+    $('head').append(script);
+}
+
+
+
+function ptq(q) {
+    /* parse the query */
+    /* semicolons are nonstandard but we accept them */
+    var x = q.replace(/;/g, '&').split('&'), i, name, t;
+    /* q changes from string version of query to object */
+    for (q={}, i=0; i<x.length; i++) {
+        t = x[i].split('=');
+        name = unescape(t[0]);
+        if (!q[name]) {
+            q[name] = [];
+        }
+        if (t.length == 1) {
+            q[name][0] = true;   // non-standard
+        } else {
+            for (var j=1; j<t.length; j++) {
+                q[name][j-1] = unescape(t[j]);
+            }
+        }
+    }
+    return q;
+}
+
+function param() {
+return ptq(location.search.substring(1).replace(/\+/g, ' '));
+}
+
+
+
+// ==========================================================REST API, AJAX, YQL....
+    // YQL, AJAX etc
+
 
 // This is Mark's simple proxy, allowing for a static HTML file and for the
 // proxy to live on a different server.
@@ -2095,32 +2172,7 @@ var my_proxy = {
 $.proxyGet(ajax_url, function (data) {console.log("--- using my proxy:\n" + data);}, my_proxy);
 */
 
-     
-function ptq(q) {
-    /* parse the query */
-    /* semicolons are nonstandard but we accept them */
-    var x = q.replace(/;/g, '&').split('&'), i, name, t;
-    /* q changes from string version of query to object */
-    for (q={}, i=0; i<x.length; i++) {
-        t = x[i].split('=');
-        name = unescape(t[0]);
-        if (!q[name]) {
-            q[name] = [];
-        }
-        if (t.length == 1) {
-            q[name][0] = true;   // non-standard
-        } else {
-            for (var j=1; j<t.length; j++) {
-                q[name][j-1] = unescape(t[j]);
-            }
-        }
-    }
-    return q;
-}
 
-function param() {
-return ptq(location.search.substring(1).replace(/\+/g, ' '));
-}
 
 
 

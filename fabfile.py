@@ -45,7 +45,9 @@ def setup_supervisor():
     if not exists('/etc/supervisor/conf.d/supervisor_systo.conf'):
         sudo('ln -s /home/{}/Projects/systo/config/supervisor_systo.conf '
              '/etc/supervisor/conf.d/supervisor_systo.conf'.format(env.user))
-    sudo('service supervisor restart')
+    sudo('service supervisor stop')
+    sleep(2.5)
+    sudo('service supervisor start')
 
 
 @task 
@@ -68,7 +70,7 @@ def deploy():
         run('git fetch')
         run('git merge origin/master')
     sudo('service supervisor stop')
-    sleep(1.5)
+    sleep(2.5)
     sudo('service supervisor start')
     sudo('service nginx restart')
 

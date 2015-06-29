@@ -24,13 +24,13 @@ def initial_setup():
     if not exists('Projects'):
         run('mkdir Projects')
     with cd('Projects'):
-        if not exists('flask-systo'):
-            run('git clone https://github.com/markmuetz/flask-systo.git')
+        if not exists('systo'):
+            run('git clone https://github.com/markmuetz/systo.git')
         else:
-            with cd('flask-systo'):
+            with cd('systo'):
                 run('git pull')
 
-        with cd('flask-systo'):
+        with cd('systo'):
             if not exists('.env'):
                 run('virtualenv .env')
             with prefix('source .env/bin/activate'):
@@ -43,7 +43,7 @@ def initial_setup():
 @task 
 def setup_supervisor():
     if not exists('/etc/supervisor/conf.d/supervisor_systo.conf'):
-        sudo('ln -s /home/{}/Projects/flask-systo/config/supervisor_systo.conf '
+        sudo('ln -s /home/{}/Projects/systo/config/supervisor_systo.conf '
              '/etc/supervisor/conf.d/supervisor_systo.conf'.format(env.user))
     sudo('service supervisor restart')
 
@@ -51,7 +51,7 @@ def setup_supervisor():
 @task 
 def setup_nginx():
     if not exists('/etc/nginx/sites-enabled/nginx_systo.conf'):
-        sudo('ln -s /home/{}/Projects/flask-systo/config/nginx_systo.conf '
+        sudo('ln -s /home/{}/Projects/systo/config/nginx_systo.conf '
              '/etc/nginx/sites-enabled/'.format(env.user))
     sudo('service nginx restart')
 
@@ -64,7 +64,7 @@ def deploy():
         print('Please run "git commit" first')
         return
     local('git push')
-    with cd('Projects/flask-systo'):
+    with cd('Projects/systo'):
         run('git fetch')
         run('git merge origin/master')
     sudo('service supervisor stop')
@@ -75,6 +75,6 @@ def deploy():
 @task 
 def setup_static_nginx():
     if not exists('/etc/nginx/sites-enabled/nginx_static_systo.conf'):
-        sudo('ln -s /home/{}/Projects/flask-systo/config/nginx_static_systo.conf '
+        sudo('ln -s /home/{}/Projects/systo/config/nginx_static_systo.conf '
              '/etc/nginx/sites-enabled/'.format(env.user))
     sudo('service nginx restart')

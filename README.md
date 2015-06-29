@@ -1,10 +1,10 @@
-# Flask-Systo
+# Systo
 
 ## Installation and Running Locally:
 
     sudo apt-get install python-pip python-virtualenv git python-dev
-    git clone https://github.com/markmuetz/flask-systo
-    cd flask-systo
+    git clone https://github.com/markmuetz/systo
+    cd systo
     virtualenv .env
     source .env/bin/activate
     pip install -r requirements.txt
@@ -12,7 +12,7 @@
 
 ## Updating and Running Locally
 
-    cd flask-systo
+    cd systo
     git pull
     source .env/bin/activate
     # If requirements.txt has changed:
@@ -33,7 +33,7 @@ Then navigate to [flask.systo.org](http://flask.systo.org/). Any page can easily
 
 ## Dependencies (Local):
 
-- [Systo](http://www.systo.org/) - [code](https://github.com/markmuetz/flask-systo)
+- [Systo](http://www.systo.org/) - [code](https://github.com/markmuetz/systo)
 - [Python](https://www.python.org/)
 - [Flask](http://flask.pocoo.org/)
 - [Python-requests](http://docs.python-requests.org/en/latest/)

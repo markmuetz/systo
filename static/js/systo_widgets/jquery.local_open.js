@@ -221,7 +221,7 @@
                 autoOpen: false,
                 //height: 600,
                 width: 500,
-                modal: true,
+                modal: false,    // 6 July 2015 TODO: make modal.   Apparent bug with current jQuery UI
                 title: 'Open a model',
                 buttons: {
                     "OK": function() {

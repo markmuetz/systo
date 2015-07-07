@@ -1787,8 +1787,8 @@ SYSTO.loadModelFromUrl = function (url) {
         return;
     }
 
-    var base_url = 'http://jsonp-proxy.1000earths.com:5000/_jsonp_proxy/get_jsonp';
-    var jsonp_url = base_url + '?url=' + url + '&secret=ce988119-569d-4d72-ba77-ed4e110fef9a';
+    var base_url = 'http://jsonp-proxy.systo.org/_jsonp_proxy/get_jsonp';
+    var jsonp_url = base_url + '?url=' + url;
     console.debug(jsonp_url);
 
     var script = document.createElement( "script" );
@@ -1897,8 +1897,8 @@ SYSTO.loadModelFromUrl = function (url) {
         return;
     }
 
-    var base_url = 'http://jsonp-proxy.1000earths.com:5000/_jsonp_proxy/get_jsonp';
-    var jsonp_url = base_url + '?url=' + url + '&secret=ce988119-569d-4d72-ba77-ed4e110fef9a';
+    var base_url = 'http://jsonp-proxy.systo.org/_jsonp_proxy/get_jsonp';
+    var jsonp_url = base_url + '?url=' + url;
     console.debug(jsonp_url);
 
     var script = document.createElement( "script" );

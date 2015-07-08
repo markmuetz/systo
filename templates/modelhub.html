@@ -2,6 +2,7 @@
 
 {% block head %}
 <title>Systo model hub</title>
+
 {% endblock %}
 
 {% block top %}
@@ -23,8 +24,13 @@
         <th>Description</th>
     </tr>
     <tr>
-        <td width="200px"><a href="systolite.html">SystoLite</a></td>
+        <td width="200px"><a id="systolite">SystoLite</a></td>
         <td>SystoLite is a very simple environment for System Dynamics modelling.  It allows viewing and editing othe model diagram, and simple displays (graph, table) for viewing simulation results.</td>
     </tr>
 </table>
+<script>
+var queryString = window.location.search.substring(1);
+document.getElementById('systolite').setAttribute('href', 'systolite.html?'+queryString)
+//var systoliteHref = 'systolite.html?'+queryString;
+</script>
 {% endblock %}

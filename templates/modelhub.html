@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<title>Systo model hub</title>
+{% endblock %}
+
+{% block top %}
+<h1><a href="/">Systo</a></h1>
+<p>Open systems modelling</p>
+{% endblock %}
+
+{% block content %}
+<h3>Model hub</h3>
+
+<p>This page gives you access to a variety of Systo-based web pages which can let you view, edit and run Systo models.</p>  
+<p>Currently (July 2015) this page is accessed from <a href="http://www.myexperiment.org/workflows?filter=TYPE_ID%28%22115%22%29">myExperiment</a>, by clicking on the link in the Run field for a particular Systo model.</p>
+<p>TEMPORARY MEASURE: This page is a placeholder, until the relevant code is added to pass the model's URL through to the chosen Systo page.</p>
+
+
+<table style="border:none">
+    <tr>
+        <th>Systo page</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td width="200px"><a href="systolite.html">SystoLite</a></td>
+        <td>SystoLite is a very simple environment for System Dynamics modelling.  It allows viewing and editing othe model diagram, and simple displays (graph, table) for viewing simulation results.</td>
+    </tr>
+</table>
+{% endblock %}

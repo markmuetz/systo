@@ -13,9 +13,9 @@
 {% block content %}
 <h3>Model hub</h3>
 
-<p>This page gives you access to a variety of Systo-based web pages which can let you view, edit and run Systo models.</p>  
-<p>Currently (July 2015) this page is accessed from <a href="http://www.myexperiment.org/workflows?filter=TYPE_ID%28%22115%22%29">myExperiment</a>, by clicking on the link in the Run field for a particular Systo model.</p>
-<p>TEMPORARY MEASURE: This page is a placeholder, until the relevant code is added to pass the model's URL through to the chosen Systo page.</p>
+<p>This page gives you access to a variety of Systo-based applications which can let you view, edit and run Systo models.</p>  
+<p>One way of accessing this page is by searching for Systo models on <a href="http://www.myexperiment.org/workflows?filter=TYPE_ID%28%22115%22%29">myExperiment</a>, selecting a particular model, then clicking on the link in the Run field for that model.</p>
+<p>Alternatively, you can use this page for <u>any</u> Systo model stored on the web, by entering its URL after the URL for this page, i.e.<br/>http://flask.systo.org/modelhub.html?modelurl=<i>URL for the model you want to load]</i></p>
 
 
 <table style="border:none">
@@ -31,6 +31,5 @@
 <script>
 var queryString = window.location.search.substring(1);
 document.getElementById('systolite').setAttribute('href', 'systolite.html?'+queryString)
-//var systoliteHref = 'systolite.html?'+queryString;
 </script>
 {% endblock %}
